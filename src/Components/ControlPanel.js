@@ -62,7 +62,7 @@ export default function ControlPanel() {
           <button>X2</button>
           <button>MAX</button>
         </div>
-        <button className="submit-bet">CREATE GAME</button>
+        <button className="submit-bet">Create Game</button>
       </div>
     </div>
   );
