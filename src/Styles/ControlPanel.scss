@@ -1,0 +1,30 @@
+.control-panel-container{
+    .side-pick-container{
+        h1{
+            color: white;
+        }
+        .side-pick-wrapper{
+            display: flex;
+            align-items: center;
+            p{
+                color: white;
+                margin: 0;
+                margin: 0 10px 0 0;
+            }
+            img{
+                width: 1.8em;
+                cursor: pointer;
+                margin: 0 .2em;
+                filter: saturate(50%);
+                transition: all 0.1s linear;
+            }
+            img:hover{
+                transform: scale(1.05);
+            }
+            .selected-side{
+                filter: saturate(100%);
+                transform: scale(1.05);
+            }
+        }
+    }
+}
