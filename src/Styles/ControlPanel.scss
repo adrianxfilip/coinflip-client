@@ -1,40 +1,44 @@
 .control-panel-container {
-  margin: 4em auto;
-  font-family: 'Roboto Condensed', sans-serif;
+  margin: 0 auto;
+  padding: 1em 2em;
+  box-sizing: border-box;
+  font-family: "Roboto Condensed", sans-serif;
   width: fit-content;
   display: flex;
   flex-wrap: wrap;
   font-size: 15px;
+  h1 {
+    color: #DAD2D8;
+    font-size: 1.8em;
+    margin: 0 1em 0 0;
+    font-weight: 700;
+  }
   .side-pick-container {
     display: flex;
     align-items: center;
-    h1 {
-      color: #dcdcdc;
-      font-size: 1.8em;
-      margin: 0 1em 0 0;
-      font-weight: 700;
-    }
     .side-pick-wrapper {
-      height: 1.5em;
+      height: 100%;
+      color: #ff5252;
       background-color: #141419;
-      width: fit-content;
-      padding: .4em .8em;
       border: 1px solid rgba(122, 122, 122, 0.616);
+      width: fit-content;
+      padding: 0 .8em;
       border-radius: 5px;
       align-items: center;
-      margin: 0 .5em 0 0;
+      margin: 0 0.5em 0 0;
       display: flex;
       align-items: center;
+      box-sizing: border-box;
       p {
         color: white;
         margin: 0;
         margin: 0 10px 0 0;
         font-weight: 300;
-        font-size: .9em;
+        font-size: 0.9em;
       }
       img {
         display: block;
-        width: 1.4em;
+        width: 1.8em;
         cursor: pointer;
         margin: 0 0.2em;
         filter: saturate(50%);
@@ -48,25 +52,57 @@
         transform: scale(1.05);
       }
     }
+    .submit-bet {
+      font-family: "Rubik", sans-serif;
+      text-transform: uppercase;
+      padding: 0.4em 0.8em;
+      font-size: .9em;
+      color: #ff5252;
+      background-color: #141419;
+      border: 1px solid #ff5252;
+      font-weight: 500;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 0 0.5em 0 0;
+      display: block;
+      height: 100%;
+      box-sizing: border-box;
+    }
   }
   .bet-amount-container {
     display: flex;
     align-items: center;
     font-size: 1em;
     button {
-      margin: 0;
       border: none;
+      font-family: "Rubik", sans-serif;
+      font-weight: 500;
+      text-rendering: optimizeLegibility;
+      letter-spacing: 1px;
+      color: #ff5252;
+      background-color: #ff5252;
+      color: white;
+      border-radius: 2px;
+      margin: 0 0.3em;
+      cursor: pointer;
+      font-size: 0.8em;
+      padding: 0.3em 0.6em;
+      max-width: 100px;
     }
     .amount-wrapper {
       height: 1.5em;
       background-color: #141419;
       width: fit-content;
-      padding: .4em .8em;
+      padding: 0.4em 0.8em;
       border: 1px solid rgba(122, 122, 122, 0.616);
       border-radius: 5px;
       display: flex;
       align-items: center;
-      margin: 0 .5em 0 0;
+      margin: 0 0.5em 0 0;
+      div{
+        display: flex;
+        align-items: center;
+      }
       img {
         width: 1.4em;
         margin: 0 0.5em 0 0;
@@ -74,8 +110,8 @@
       input {
         background-color: transparent;
         border: none;
-        color: white;
-        font-family: 'Roboto Condensed', sans-serif;
+        color:white;
+        font-family: "Rubik", sans-serif;
         font-size: 1em;
         font-weight: 300;
       }
@@ -95,46 +131,106 @@
       height: 1.5em;
       background-color: #141419;
       width: fit-content;
-      padding: .4em;
+      padding: 0.4em;
       border: 1px solid rgba(122, 122, 122, 0.616);
       border-radius: 5px;
       display: flex;
       align-items: center;
-      margin: 0 .5em 0 0;
-      button{
-        font-family: 'Roboto Condensed', sans-serif;
-        background-color: #333541;
-        color: white;
-        border-radius: 2px;
-        margin: 0 .3em;
-        cursor: pointer;
-        font-size: .8em;
-        padding: .3em .6em;
-      }
+      margin: 0 0.5em 0 0;
     }
-    .submit-bet{
-      font-family: 'Roboto Condensed', sans-serif;
-      height: 1.5em;
-      box-sizing: content-box;
-      padding: .4em .8em;
-      font-size: 1em;
-      color: black    ;
-      font-weight: 700;
-      background-color: #e9b10b;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+  }
+  .not-selected {
+    border-color: rgb(122, 18, 0) !important;
+    border-width: 2px !important;
   }
 }
 
 @media only screen and (max-width: 1100px) {
-  .control-panel-container{
-    font-size: 14px;
+  .control-panel-container {
+    font-size: 13px;
   }
 }
 
 @media only screen and (max-width: 1000px) {
-  .control-panel-container{
-    font-size: 13px;
+  .control-panel-container {
+    font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .control-panel-container {
+    font-size: 16px;
+    flex-direction: column;
+    width: 100%;
+    h1{
+      margin: 0 0 .5em 0;
+      font-size: 2.5em;
+    }
+    .side-pick-container {
+      justify-content: space-between;
+      height: 2.8em;
+      .submit-bet{
+        display: block;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+      }
+      .side-pick-wrapper{
+        padding: 0;
+        height: 100%;
+        padding: 0 .5em;
+        img{
+          width: 2.2em;
+        }
+      }
+    }
+    .bet-amount-container {
+      flex-direction: column;
+      button {
+        flex: 1;
+        padding: 0.8em 0.6em;
+        font-weight: 600;
+        font-weight: 400;
+        font-size: .7em;
+      }
+      .amount-wrapper {
+        width: 100%;
+        margin: 0;
+        box-sizing: content-box;
+        height: fit-content;
+        box-sizing: border-box;
+        justify-content: space-between;
+        padding: .4em .4em .4em .8em;
+      }
+      .controls-wrapper {
+        width: 100%;
+        justify-content: space-between;
+        height: fit-content;
+        margin: 0.5em 0;
+        box-sizing: border-box;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .control-panel-container {
+    padding: 1em;
+    font-size: 15px;
+    .x2-btn,
+    .half-btn {
+      display: none;
+    }
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .control-panel-container {
+    padding: 1em;
+    font-size: 12px;
+    .x2-btn,
+    .half-btn {
+      display: none;
+    }
   }
 }
