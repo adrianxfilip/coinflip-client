@@ -4,20 +4,7 @@ import heads from "../Assets/heads.png";
 import tails from "../Assets/tails.png";
 import coinstack from "../Assets/coin-stack.png";
 
-export default function ControlPanel({ socket }) {
-  socket.on("connected", () => {
-    setConnected(true);
-  });
-
-  useEffect(() => {
-    socket.on("rooms", (rooms) => {
-      console.log(rooms);
-    });
-  }, []);
-
-  const [isConnected, setConnected] = useState(false);
-
-  const [balance, setBalance] = useState(150);
+export default function ControlPanel({ socket, balance }) {
 
   const [betAmount, setAmount] = useState(0);
 
@@ -33,139 +20,135 @@ export default function ControlPanel({ socket }) {
     selectedSide === "" ? setSelectSide(true) : setSelectSide(false);
     betAmount == "" ? setSelectAmount(true) : setSelectAmount(false);
     if (selectedSide && betAmount) {
-      socket.emit("create-room", { betAmount: betAmount });
+      socket.emit("create-room", { betAmount: betAmount, side : selectedSide });
     }
   };
 
   return (
-    isConnected && (
-      <div className="control-panel-container">
-        <h1 className="logo">COINFLIP</h1>
-        <div className="bet-amount-container">
-          <div
-            className={
-              mustSelectAmount
-                ? "amount-wrapper not-selected"
-                : "amount-wrapper"
-            }
+    <div className="control-panel-container">
+      <h1 className="logo">COINFLIP</h1>
+      <div className="bet-amount-container">
+        <div
+          className={
+            mustSelectAmount ? "amount-wrapper not-selected" : "amount-wrapper"
+          }
+        >
+          <div>
+            <img src={coinstack} alt="Stack of coins" />
+            <input
+              className="amount-input"
+              type="text"
+              min="0"
+              value={betAmount}
+              onChange={(e) => {
+                if (regex.test(e.target.value) || e.target.value == "") {
+                  setAmount(e.target.value);
+                }
+              }}
+              onBlur={(e) => {
+                if (e.target.value === "") {
+                  setAmount(0);
+                } else {
+                  setAmount(parseFloat(e.target.value));
+                }
+              }}
+            ></input>{" "}
+          </div>
+          <button
+            onClick={() => {
+              setAmount(0);
+            }}
           >
-            <div>
-              <img src={coinstack} alt="Stack of coins" />
-              <input
-                className="amount-input"
-                type="text"
-                min="0"
-                value={betAmount}
-                onChange={(e) => {
-                  if (regex.test(e.target.value) || e.target.value == "") {
-                    setAmount(e.target.value);
-                  }
-                }}
-                onBlur={(e) => {
-                  if (e.target.value === "") {
-                    setAmount(0);
-                  } else {
-                    setAmount(parseFloat(e.target.value));
-                  }
-                }}
-              ></input>{" "}
-            </div>
-            <button
-              onClick={() => {
-                setAmount(0);
-              }}
-            >
-              RESET
-            </button>
-          </div>
-          <div className="controls-wrapper">
-            <button
-              onClick={() => {
-                setAmount(parseFloat(betAmount) + 0.5);
-              }}
-            >
-              +0.5
-            </button>
-            <button
-              onClick={() => {
-                setAmount(parseFloat(betAmount) + 1);
-              }}
-            >
-              +1
-            </button>
-            <button
-              onClick={() => {
-                setAmount(parseFloat(betAmount) + 10);
-              }}
-            >
-              +10
-            </button>
-            <button
-              onClick={() => {
-                setAmount(parseFloat(betAmount) + 100);
-              }}
-            >
-              +100
-            </button>
-            <button
-              className="half-btn"
-              onClick={() => {
-                setAmount(
-                  parseInt(betAmount) === parseFloat(betAmount)
-                    ? parseFloat(betAmount) / 2
-                    : (parseFloat(betAmount) / 2).toFixed(2)
-                );
-              }}
-            >
-              1/2
-            </button>
-            <button
-              className="x2-btn"
-              onClick={() => {
-                setAmount(parseFloat(betAmount) * 2);
-              }}
-            >
-              X2
-            </button>
-            <button
-              onClick={() => {
-                setAmount(balance);
-              }}
-            >
-              MAX
-            </button>
-          </div>
+            RESET
+          </button>
         </div>
-        <div className="side-pick-container">
-          <div
-            className={
-              mustSelectSide
-                ? "side-pick-wrapper not-selected"
-                : "side-pick-wrapper"
-            }
+        <div className="controls-wrapper">
+          <button
+            onClick={() => {
+              setAmount(parseFloat(betAmount) + 0.5);
+            }}
           >
-            <img
-              src={heads}
-              className={selectedSide === "heads" ? "selected-side" : ""}
-              alt="Heads part of coin"
-              onClick={() => {
-                setSide("heads");
-              }}
-            />
-            <img
-              src={tails}
-              className={selectedSide === "tails" ? "selected-side" : ""}
-              alt="Tails part of coin"
-              onClick={() => {
-                setSide("tails");
-              }}
-            />
-          </div>
-          <button className="submit-bet" onClick={createGame}>
-            Create Game
+            +0.5
+          </button>
+          <button
+            onClick={() => {
+              setAmount(parseFloat(betAmount) + 1);
+            }}
+          >
+            +1
+          </button>
+          <button
+            onClick={() => {
+              setAmount(parseFloat(betAmount) + 10);
+            }}
+          >
+            +10
+          </button>
+          <button
+            onClick={() => {
+              setAmount(parseFloat(betAmount) + 100);
+            }}
+          >
+            +100
+          </button>
+          <button
+            className="half-btn"
+            onClick={() => {
+              setAmount(
+                parseInt(betAmount) === parseFloat(betAmount)
+                  ? parseFloat(betAmount) / 2
+                  : (parseFloat(betAmount) / 2).toFixed(2)
+              );
+            }}
+          >
+            1/2
+          </button>
+          <button
+            className="x2-btn"
+            onClick={() => {
+              setAmount(parseFloat(betAmount) * 2);
+            }}
+          >
+            X2
+          </button>
+          <button
+            onClick={() => {
+              setAmount(balance);
+            }}
+          >
+            MAX
           </button>
         </div>
       </div>
-    )
+      <div className="side-pick-container">
+        <div
+          className={
+            mustSelectSide
+              ? "side-pick-wrapper not-selected"
+              : "side-pick-wrapper"
+          }
+        >
+          <img
+            src={heads}
+            className={selectedSide === "heads" ? "selected-side" : ""}
+            alt="Heads part of coin"
+            onClick={() => {
+              setSide("heads");
+            }}
+          />
+          <img
+            src={tails}
+            className={selectedSide === "tails" ? "selected-side" : ""}
+            alt="Tails part of coin"
+            onClick={() => {
+              setSide("tails");
+            }}
+          />
+        </div>
+        <button className="submit-bet" onClick={createGame}>
+          Create Game
+        </button>
+      </div>
+    </div>
   );
 }

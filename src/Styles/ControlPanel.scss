@@ -8,7 +8,9 @@
   flex-wrap: wrap;
   font-size: 15px;
   h1 {
-    color: #DAD2D8;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #ff5252;
+    color: #141419;
     font-size: 1.8em;
     margin: 0 1em 0 0;
     font-weight: 700;
@@ -17,6 +19,11 @@
     display: flex;
     align-items: center;
     .side-pick-wrapper {
+      box-shadow:
+      0px 2.1px 5.3px rgba(255, 0, 0, 0.077),
+      0px 6.9px 17.9px rgba(255, 0, 0, 0.113),
+      0px 31px 80px rgba(255, 0, 0, 0.19)
+    ;
       height: 100%;
       color: #ff5252;
       background-color: #141419;
@@ -41,7 +48,7 @@
         width: 1.8em;
         cursor: pointer;
         margin: 0 0.2em;
-        filter: saturate(50%);
+        filter: saturate(0%);
         transition: all 0.1s linear;
       }
       img:hover {
@@ -53,6 +60,11 @@
       }
     }
     .submit-bet {
+      box-shadow:
+      0px 2.1px 5.3px rgba(255, 0, 0, 0.077),
+      0px 6.9px 17.9px rgba(255, 0, 0, 0.113),
+      0px 31px 80px rgba(255, 0, 0, 0.19)
+    ;
       font-family: "Rubik", sans-serif;
       text-transform: uppercase;
       padding: 0.4em 0.8em;
@@ -67,6 +79,11 @@
       display: block;
       height: 100%;
       box-sizing: border-box;
+      transition: all .2s;
+    }
+    .submit-bet:hover{
+      background-color: #ff5252;
+      color: #141419;
     }
   }
   .bet-amount-container {
@@ -79,9 +96,8 @@
       font-weight: 500;
       text-rendering: optimizeLegibility;
       letter-spacing: 1px;
-      color: #ff5252;
       background-color: #ff5252;
-      color: white;
+      color: #141419;
       border-radius: 2px;
       margin: 0 0.3em;
       cursor: pointer;
@@ -89,7 +105,15 @@
       padding: 0.3em 0.6em;
       max-width: 100px;
     }
+    button:hover{
+      transform: translateY(-1px);
+    }
     .amount-wrapper {
+      box-shadow:
+      0px 2.1px 5.3px rgba(255, 0, 0, 0.077),
+      0px 6.9px 17.9px rgba(255, 0, 0, 0.113),
+      0px 31px 80px rgba(255, 0, 0, 0.19)
+    ;
       height: 1.5em;
       background-color: #141419;
       width: fit-content;
@@ -137,6 +161,11 @@
       display: flex;
       align-items: center;
       margin: 0 0.5em 0 0;
+      box-shadow:
+      0px 2.1px 5.3px rgba(255, 0, 0, 0.077),
+      0px 6.9px 17.9px rgba(255, 0, 0, 0.113),
+      0px 31px 80px rgba(255, 0, 0, 0.19)
+    ;
     }
   }
   .not-selected {
@@ -163,8 +192,13 @@
     flex-direction: column;
     width: 100%;
     h1{
-      margin: 0 0 .5em 0;
+      margin: 0 0 .2em 0;
       font-size: 2.5em;
+      background-color: #141419;
+      padding: .2em;
+      border-radius: 5px;
+      text-align: center;
+      border: 1px solid #ff5252;
     }
     .side-pick-container {
       justify-content: space-between;
@@ -180,7 +214,7 @@
         height: 100%;
         padding: 0 .5em;
         img{
-          width: 2.2em;
+          width: 1.8em;
         }
       }
     }
@@ -190,7 +224,6 @@
         flex: 1;
         padding: 0.8em 0.6em;
         font-weight: 600;
-        font-weight: 400;
         font-size: .7em;
       }
       .amount-wrapper {
