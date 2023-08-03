@@ -1,18 +1,16 @@
 .control-panel-container {
-  margin: 0 auto;
-  padding: 1em 2em;
   box-sizing: border-box;
   font-family: "Roboto Condensed", sans-serif;
-  width: fit-content;
   display: flex;
   flex-wrap: wrap;
   font-size: 15px;
+  width: 100%;
   h1 {
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #ff5252;
     color: #141419;
     font-size: 1.8em;
-    margin: 0 1em 0 0;
+    margin: 0 auto 0 0;
     font-weight: 700;
   }
   .side-pick-container {
@@ -149,6 +147,7 @@
       }
       input[type="number"] {
         -moz-appearance: textfield;
+        appearance: textfield;
       }
     }
     .controls-wrapper {
@@ -248,7 +247,6 @@
 
 @media only screen and (max-width: 600px) {
   .control-panel-container {
-    padding: 1em;
     font-size: 15px;
     .x2-btn,
     .half-btn {
@@ -259,7 +257,6 @@
 
 @media only screen and (max-width: 320px) {
   .control-panel-container {
-    padding: 1em;
     font-size: 12px;
     .x2-btn,
     .half-btn {

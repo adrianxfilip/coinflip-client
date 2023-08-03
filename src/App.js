@@ -1,4 +1,5 @@
-import { useState } from "react";
+import "./App.css"
+import { useEffect, useState } from "react";
 import ControlPanel from "./Components/ControlPanel";
 import Rooms from "./Components/Rooms";
 import socketIO from "socket.io-client";
@@ -8,18 +9,23 @@ function App() {
 
   const [balance, setBalance] = useState(250) // BALANCE TO BE SET BY MASTER CLIENT;
 
-  const [isConnected, setConnected] = useState(false);
+  const [socketID, setSocketID] = useState("");
 
-  socket.on("connected", () => {
-    setConnected(true);
-  });
+  const [rooms, setRooms] = useState({})
+
+  useEffect(()=>{
+    socket.on("connected", (rooms, id) => {
+      setSocketID(id);
+      setRooms(rooms)
+    });
+  }, [])
 
   return (
     <div className="App">
-      {isConnected ? (
+      {socketID ? (
         <>
           <ControlPanel socket={socket} balance={balance} />
-          <Rooms socket={socket} />
+          <Rooms socket={socket} initialRooms={rooms} socketID={socketID}/>
         </>
       ) : (
         <h1 style={{textAlign :"center", color: "white"}}>LOADING</h1>

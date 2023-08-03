@@ -16,7 +16,7 @@ export default function ControlPanel({ socket, balance }) {
 
   const regex = /^([0-9]+(\.?[0-9]?[0-9]?)?$)/;
 
-  const createGame = () => {
+  const createRoom = () => {
     selectedSide === "" ? setSelectSide(true) : setSelectSide(false);
     betAmount == "" ? setSelectAmount(true) : setSelectAmount(false);
     if (selectedSide && betAmount) {
@@ -145,7 +145,7 @@ export default function ControlPanel({ socket, balance }) {
             }}
           />
         </div>
-        <button className="submit-bet" onClick={createGame}>
+        <button className="submit-bet" onClick={createRoom}>
           Create Game
         </button>
       </div>
