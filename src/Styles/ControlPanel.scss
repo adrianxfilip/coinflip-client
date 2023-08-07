@@ -2,27 +2,39 @@
   box-sizing: border-box;
   font-family: "Roboto Condensed", sans-serif;
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   font-size: 15px;
   width: 100%;
-  h1 {
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #ff5252;
-    color: #141419;
-    font-size: 1.8em;
+  .balance-wrapper{
     margin: 0 auto 0 0;
-    font-weight: 700;
+    h1 {
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: #ff5252;
+      color: #141419;
+      font-size: 1.8em;
+      font-weight: 700;
+      margin: 0;
+    }
+    .balance{
+      margin: 0;
+      color: white;
+      font-size: .7em;
+      span{
+        font-size: 1.5em !important;
+      }
+    }
   }
   .side-pick-container {
     display: flex;
     align-items: center;
+    height: 2.5em;
     .side-pick-wrapper {
       box-shadow:
       0px 2.1px 5.3px rgba(255, 0, 0, 0.077),
       0px 6.9px 17.9px rgba(255, 0, 0, 0.113),
       0px 31px 80px rgba(255, 0, 0, 0.19)
     ;
-      height: 100%;
       color: #ff5252;
       background-color: #141419;
       border: 1px solid rgba(122, 122, 122, 0.616);
@@ -34,6 +46,7 @@
       display: flex;
       align-items: center;
       box-sizing: border-box;
+      height: 100%;
       p {
         color: white;
         margin: 0;
@@ -88,6 +101,7 @@
     display: flex;
     align-items: center;
     font-size: 1em;
+    height: 2.5em;
     button {
       border: none;
       font-family: "Rubik", sans-serif;
@@ -112,7 +126,8 @@
       0px 6.9px 17.9px rgba(255, 0, 0, 0.113),
       0px 31px 80px rgba(255, 0, 0, 0.19)
     ;
-      height: 1.5em;
+    height: 100%;
+    box-sizing: border-box;
       background-color: #141419;
       width: fit-content;
       padding: 0.4em 0.8em;
@@ -136,6 +151,7 @@
         font-family: "Rubik", sans-serif;
         font-size: 1em;
         font-weight: 300;
+        min-width: 100px;
       }
       input:focus {
         outline: none;
@@ -151,7 +167,8 @@
       }
     }
     .controls-wrapper {
-      height: 1.5em;
+      height: 100%;
+      box-sizing: border-box;
       background-color: #141419;
       width: fit-content;
       padding: 0.4em;
@@ -190,18 +207,30 @@
     font-size: 16px;
     flex-direction: column;
     width: 100%;
-    h1{
-      margin: 0 0 .2em 0;
-      font-size: 2.5em;
+    .balance-wrapper{
+      margin: 0 0 .5em 0;
       background-color: #141419;
-      padding: .2em;
+      padding: 1em;
       border-radius: 5px;
       text-align: center;
       border: 1px solid #ff5252;
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      h1 {
+        font-size: 1.8em;
+      }
+      .balance{
+        text-align: left;
+        span{
+          display: block;
+        }
+      }
     }
     .side-pick-container {
       justify-content: space-between;
-      height: 2.8em;
+      width: 100%;
       .submit-bet{
         display: block;
         height: 100%;
@@ -219,6 +248,8 @@
     }
     .bet-amount-container {
       flex-direction: column;
+      width: 100%;
+      height: fit-content;
       button {
         flex: 1;
         padding: 0.8em 0.6em;

@@ -35,7 +35,7 @@ function RoomCard({
             </div>
           </div>
           <div className="countdown">
-            {status != "ongoing" ? <img src={versus}></img> : <p>{winningSide}<br/> WINS</p>}
+            {status != "ongoing" ? <p className="vs">VS</p> : <p>{winningSide}<br/> WINS</p>}
           </div>
           <div className="player">
             {" "}

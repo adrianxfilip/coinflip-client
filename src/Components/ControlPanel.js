@@ -5,7 +5,6 @@ import tails from "../Assets/tails.png";
 import coinstack from "../Assets/coin-stack.png";
 
 export default function ControlPanel({ socket, balance }) {
-
   const [betAmount, setAmount] = useState(0);
 
   const [selectedSide, setSide] = useState("");
@@ -19,14 +18,17 @@ export default function ControlPanel({ socket, balance }) {
   const createRoom = () => {
     selectedSide === "" ? setSelectSide(true) : setSelectSide(false);
     betAmount == "" ? setSelectAmount(true) : setSelectAmount(false);
-    if (selectedSide && betAmount) {
-      socket.emit("create-room", { betAmount: betAmount, side : selectedSide });
+    if (selectedSide && betAmount && betAmount < balance) {
+      socket.emit("create-room", { betAmount: betAmount, side: selectedSide });
     }
   };
 
   return (
     <div className="control-panel-container">
-      <h1 className="logo">COINFLIP</h1>
+      <div className="balance-wrapper">
+        <h1 className="logo">COINFLIP</h1>
+        <p className="balance">Balance <span>{balance.toFixed(2)} RON</span></p>
+      </div>
       <div className="bet-amount-container">
         <div
           className={
