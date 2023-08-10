@@ -2,6 +2,7 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import ControlPanel from "./Components/ControlPanel";
 import Rooms from "./Components/Rooms";
+import Coin from "./Components/CoinToss";
 import socketIO from "socket.io-client";
 const socket = socketIO.connect("http://buratancunebunu.home.ro:4000");
 
@@ -17,10 +18,13 @@ function App() {
       setSocketID(id);
       setRooms(rooms);
     });
-    socket.on("balanceUpdate", (newBalance) => {
-      setBalance(balance + newBalance);
-    });
   }, []);
+
+  useEffect(()=>{
+    socket.on("balanceUpdate", (newBalance) => {
+      setBalance((prev)=>prev + newBalance);
+    });
+  }, [])
 
 
   return (
@@ -28,7 +32,7 @@ function App() {
       {socketID ? (
         <>
           <ControlPanel socket={socket} balance={balance} />
-          <Rooms socket={socket} initialRooms={rooms} socketID={socketID} />
+          <Rooms socket={socket} initialRooms={rooms} socketID={socketID}/>
         </>
       ) : (
         <h1 style={{ textAlign: "center", color: "white" }}>LOADING</h1>

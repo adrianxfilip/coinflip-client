@@ -18,7 +18,7 @@ export default function ControlPanel({ socket, balance }) {
   const createRoom = () => {
     selectedSide === "" ? setSelectSide(true) : setSelectSide(false);
     betAmount == "" ? setSelectAmount(true) : setSelectAmount(false);
-    if (selectedSide && betAmount && betAmount < balance) {
+    if (selectedSide && betAmount && betAmount <= balance) {
       socket.emit("create-room", { betAmount: betAmount, side: selectedSide });
     }
   };

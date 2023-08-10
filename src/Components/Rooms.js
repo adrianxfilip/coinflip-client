@@ -3,7 +3,7 @@ import "../Styles/Rooms.scss";
 import heads from "../Assets/heads.png";
 import tails from "../Assets/tails.png";
 import coinstack from "../Assets/coin-stack.png";
-import versus from "../Assets/vs.png";
+import Coin from "./CoinToss";
 
 function RoomCard({
   roomID,
@@ -35,15 +35,20 @@ function RoomCard({
             </div>
           </div>
           <div className="countdown">
-            {status != "ongoing" ? <p className="vs">VS</p> : <p>{winningSide}<br/> WINS</p>}
+            {status != "ongoing" ? (
+              <p className="vs">VS</p>
+            ) : (
+              <Coin winningSide={winningSide} />
+            )}
           </div>
           <div className="player">
-            {" "}
+            <img
+              src={playerOne.side == "heads" ? tails : heads}
+              className="player-side"
+            />
             {playerTwo.id == "" ? (
               playerOne.id == socketID ? (
-                <>
-                  <p className="waiting">WAITING <br/> FOR <br/> PLAYER</p>
-                </>
+                <div className="dot-stretching"></div>
               ) : (
                 <>
                   <button className="join-room" onClick={joinRoom}>
@@ -52,14 +57,7 @@ function RoomCard({
                 </>
               )
             ) : (
-              <>
-                {" "}
-                <img
-                  src={playerTwo.side == "heads" ? heads : tails}
-                  className="player-side"
-                />
-                <p className="player-name">Player 2</p>
-              </>
+              <p className="player-name">Player 2</p>
             )}
             <div className="bet-amount">
               <img src={coinstack} />
