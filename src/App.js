@@ -2,8 +2,8 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import ControlPanel from "./Components/ControlPanel";
 import Rooms from "./Components/Rooms";
-import Coin from "./Components/CoinToss";
 import socketIO from "socket.io-client";
+import Chat from "./Components/Chat";
 const socket = socketIO.connect("http://buratancunebunu.home.ro:4000");
 
 function App() {
@@ -33,6 +33,7 @@ function App() {
         <>
           <ControlPanel socket={socket} balance={balance} />
           <Rooms socket={socket} initialRooms={rooms} socketID={socketID}/>
+          <Chat />
         </>
       ) : (
         <h1 style={{ textAlign: "center", color: "white" }}>LOADING</h1>
