@@ -11,12 +11,18 @@ function App() {
 
   const [socketID, setSocketID] = useState("");
 
-  const [rooms, setRooms] = useState({});
+  const [initialRooms, setRooms] = useState({});
+
+  const [initialChat, setChat] = useState([])
+
+  const [clientsCount, setClientsCount] = useState(0)
 
   useEffect(() => {
-    socket.on("connected", (rooms, id) => {
+    socket.on("connected", (rooms, chat, id, clientsCount) => {
       setSocketID(id);
       setRooms(rooms);
+      setChat(chat);
+      setClientsCount(clientsCount)
     });
   }, []);
 
@@ -32,8 +38,8 @@ function App() {
       {socketID ? (
         <>
           <ControlPanel socket={socket} balance={balance} />
-          <Rooms socket={socket} initialRooms={rooms} socketID={socketID}/>
-          <Chat />
+          <Rooms socket={socket} initialRooms={initialRooms} socketID={socketID}/>
+          <Chat socket={socket} initialChat={initialChat} clientsCount={clientsCount} />
         </>
       ) : (
         <h1 style={{ textAlign: "center", color: "white" }}>LOADING</h1>
