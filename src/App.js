@@ -9,27 +9,34 @@ const socket = socketIO.connect("http://buratancunebunu.home.ro:4000");
 function App() {
   const [balance, setBalance] = useState(250.00); // BALANCE TO BE SET BY MASTER CLIENT;
 
+  const [userData, setUserData] = useState({name : "TBD", id : ""})
+
   const [socketID, setSocketID] = useState("");
 
-  const [initialRooms, setRooms] = useState({});
+  const [rooms, setRooms] = useState({});
 
-  const [initialChat, setChat] = useState([])
+  const [chat, setChat] = useState([])
 
   const [clientsCount, setClientsCount] = useState(0)
 
-  useEffect(() => {
-    socket.on("connected", (rooms, chat, id, clientsCount) => {
+  useEffect(()=>{
+    socket.on("connected", (rooms, chat, id) => {
       setSocketID(id);
       setRooms(rooms);
       setChat(chat);
-      setClientsCount(clientsCount)
     });
-  }, []);
-
-  useEffect(()=>{
     socket.on("balanceUpdate", (newBalance) => {
       setBalance((prev)=>prev + newBalance);
     });
+    socket.on("rooms", (rooms) => {
+      setRooms(rooms);
+    }, []);
+    socket.on("chat-update", (chat) => {
+      setChat(chat);
+    });
+    socket.on("clients-count-update", (clientsCount) => {
+      setClientsCount(clientsCount)
+    })
   }, [])
 
 
@@ -38,8 +45,8 @@ function App() {
       {socketID ? (
         <>
           <ControlPanel socket={socket} balance={balance} />
-          <Rooms socket={socket} initialRooms={initialRooms} socketID={socketID}/>
-          <Chat socket={socket} initialChat={initialChat} clientsCount={clientsCount} />
+          <Rooms socket={socket} rooms={rooms} socketID={socketID}/>
+          <Chat socket={socket} chat={chat} clientsCount={clientsCount} username={userData.name} />
         </>
       ) : (
         <h1 style={{ textAlign: "center", color: "white" }}>LOADING</h1>

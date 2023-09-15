@@ -72,14 +72,7 @@ function RoomCard({
   );
 }
 
-export default function Rooms({ socket, initialRooms, socketID }) {
-  const [rooms, setRooms] = useState(initialRooms);
-
-  useEffect(() => {
-    socket.on("rooms", (rooms) => {
-      setRooms(rooms);
-    });
-  }, []);
+export default function Rooms({ socket, rooms, socketID }) {
 
   return (
     <div className="rooms-container">
