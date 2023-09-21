@@ -4,7 +4,12 @@ import ControlPanel from "./Components/ControlPanel";
 import Rooms from "./Components/Rooms";
 import socketIO from "socket.io-client";
 import Chat from "./Components/Chat";
-const socket = socketIO.connect("http://buratancunebunu.home.ro:4000");
+
+// HOME
+//const socket = socketIO.connect("http://buratancunebunu.home.ro:4000");
+
+// ANDREEA
+const socket = socketIO.connect("http://192.168.1.174:4000");
 
 function App() {
   const [balance, setBalance] = useState(250.00); // BALANCE TO BE SET BY MASTER CLIENT;
