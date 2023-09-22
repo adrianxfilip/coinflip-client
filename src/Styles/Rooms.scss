@@ -1,6 +1,9 @@
 .rooms-container {
-  .controls-container {
-    margin: 2em 0;
+  .filters-container {
+    margin: 1em 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     .open-games {
       display: flex;
       align-items: center;
@@ -9,12 +12,62 @@
         font-family: "Rubik", sans-serif;
         font-weight: 500;
         color: white;
-        font-size: 1.2em;
+        font-size: 1.1em;
       }
       p:last-child {
         color: #ff5252;
-        font-size: 1.6em;
+        font-size: 1.4em;
         margin-left: 0.5em;
+      }
+    }
+    .filters-wrapper{
+      position:relative;
+        button{
+          display: flex;
+          align-items: center;
+          border: none;
+          background-color: transparent;
+          font-family: "Rubik", sans-serif;
+          font-weight: 500;
+          color: white;
+          cursor: pointer;
+          .fi{
+            display: block;
+            transform: translateY(2px);
+            margin: 0 .5em 0 0;
+            font-size: 1.4em;
+          }
+        }
+      }
+    .filter-options-popup{
+      position: absolute;
+      right: 0;
+      top:2em;
+      z-index: 10;
+      background-color: #141419;
+      border: 1px solid rgb(128, 128, 128);
+      padding: .5em;
+      border-radius: 5px;
+      white-space: nowrap;
+      button{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        border: none;
+        background-color: transparent;
+        font-family: "Rubik", sans-serif;
+        font-weight: 500;
+        color: white;
+        cursor: pointer;
+        font-size:.8em;
+        width: 100%;
+        margin: 0;
+        padding: .5em 1em;
+        border-radius: 5px;
+      }
+      button:hover{
+        background-color: white;
+        color: #141419;
       }
     }
   }
