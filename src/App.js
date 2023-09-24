@@ -46,7 +46,7 @@ function App() {
       {socketID ? (
         <>
           <ControlPanel socket={socket} balance={balance} />
-          <Rooms socket={socket} rooms={rooms} socketID={socketID}/>
+          <Rooms socket={socket} rooms={rooms} socketID={socketID} balance={balance}/>
           <Chat socket={socket} chat={chat} clientsCount={clientsCount} username={userData.name} />
         </>
       ) : (

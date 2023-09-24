@@ -14,9 +14,13 @@ function RoomCard({
   winningSide,
   socketID,
   socket,
+  balance
 }) {
+  
   const joinRoom = () => {
-    socket.emit("join-room", roomID);
+    if(balance >= betAmount){
+      socket.emit("join-room", roomID);
+    }
   };
 
   return (
@@ -72,7 +76,7 @@ function RoomCard({
   );
 }
 
-export default function Rooms({ socket, rooms, socketID }) {
+export default function Rooms({ socket, rooms, socketID, balance }) {
   const [filterRange, setFilterRange] = useState("all");
 
   const [filterDisplay, setFilterDisplayed] = useState("All");
@@ -80,10 +84,6 @@ export default function Rooms({ socket, rooms, socketID }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const filterOptions = window.FILTERS;
-
-  useEffect(() => {
-    console.log(rooms);
-  }, [rooms]);
 
   return (
     <div className="rooms-container">
@@ -154,6 +154,7 @@ export default function Rooms({ socket, rooms, socketID }) {
                   winningSide={rooms[key].winningSide}
                   socketID={socketID}
                   socket={socket}
+                  balance={balance}
                 />
               ))
           : Object.keys(rooms).map((key) => (
@@ -167,6 +168,7 @@ export default function Rooms({ socket, rooms, socketID }) {
                 winningSide={rooms[key].winningSide}
                 socketID={socketID}
                 socket={socket}
+                balance={balance}
               />
             ))}
       </div>
