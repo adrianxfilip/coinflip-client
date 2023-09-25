@@ -7,6 +7,10 @@ import coinstack from "../Assets/coin-stack.png";
 export default function ControlPanel({ socket, balance }) {
   const [betAmount, setAmount] = useState(0);
 
+  const UpdateAmount = () => {
+    
+  }
+
   const [selectedSide, setSide] = useState("");
 
   const [mustSelectSide, setSelectSide] = useState(false);
@@ -48,10 +52,10 @@ export default function ControlPanel({ socket, balance }) {
                 }
               }}
               onBlur={(e) => {
-                if (e.target.value === "") {
+                if (e.target.value === "" || e.target.value == "0") {
                   setAmount(0);
                 } else {
-                  setAmount(parseFloat(e.target.value));
+                  setAmount(parseFloat(e.target.value).toFixed(2));
                 }
               }}
             ></input>{" "}
@@ -67,28 +71,28 @@ export default function ControlPanel({ socket, balance }) {
         <div className="controls-wrapper">
           <button
             onClick={() => {
-              setAmount(parseFloat(betAmount) + 0.5);
+              setAmount((parseFloat(betAmount) + 0.5).toFixed(2));
             }}
           >
             +0.5
           </button>
           <button
             onClick={() => {
-              setAmount(parseFloat(betAmount) + 1);
+              setAmount((parseFloat(betAmount) + 1).toFixed(2));
             }}
           >
             +1
           </button>
           <button
             onClick={() => {
-              setAmount(parseFloat(betAmount) + 10);
+              setAmount((parseFloat(betAmount) + 10).toFixed(2));
             }}
           >
             +10
           </button>
           <button
             onClick={() => {
-              setAmount(parseFloat(betAmount) + 100);
+              setAmount((parseFloat(betAmount) + 100).toFixed(2));
             }}
           >
             +100
@@ -96,11 +100,7 @@ export default function ControlPanel({ socket, balance }) {
           <button
             className="half-btn"
             onClick={() => {
-              setAmount(
-                parseInt(betAmount) === parseFloat(betAmount)
-                  ? parseFloat(betAmount) / 2
-                  : (parseFloat(betAmount) / 2).toFixed(2)
-              );
+              setAmount((parseFloat(betAmount) / 2).toFixed(2));
             }}
           >
             1/2
@@ -108,7 +108,7 @@ export default function ControlPanel({ socket, balance }) {
           <button
             className="x2-btn"
             onClick={() => {
-              setAmount(parseFloat(betAmount) * 2);
+              setAmount((parseFloat(betAmount) * 2).toFixed(2));
             }}
           >
             X2
