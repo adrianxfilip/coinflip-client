@@ -3,7 +3,7 @@ import { useLoader, useFrame } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Canvas } from "@react-three/fiber";
 import { motion } from "framer-motion-3d";
-import { animationControls, anticipate, useAnimation } from "framer-motion";
+import { useAnimation } from "framer-motion";
 import { useEffect } from "react";
 
 const GltfModel = ({ position = [0, 0, 0] }) => {
@@ -14,7 +14,7 @@ const GltfModel = ({ position = [0, 0, 0] }) => {
     <>
       <primitive
         ref={ref}
-        object={gltf.scene}
+        object={gltf.scene.clone()}
         position={position}
         scale={1.5}
       />
@@ -22,7 +22,7 @@ const GltfModel = ({ position = [0, 0, 0] }) => {
   );
 };
 
-const ModelViewer = ({ position = [0, 0, 0], winningSide }) => {
+const ModelViewer = ({ position = [0, 0, 0], winningSide, roomID }) => {
   const variants = {
     initial: {
       rotateY: 0,
@@ -61,7 +61,6 @@ const ModelViewer = ({ position = [0, 0, 0], winningSide }) => {
   const coinControls = useAnimation();
 
   useEffect(() => {
-    console.log(winningSide)
     if (winningSide == "tails") {
       coinControls.start("tails");
     } else {
@@ -73,7 +72,7 @@ const ModelViewer = ({ position = [0, 0, 0], winningSide }) => {
     <Canvas>
       <ambientLight intensity={2} />
       <Suspense fallback={null}>
-        <motion.group variants={variants} animate={winningSide == "tails" ? "tails" : "heads"}>
+        <motion.group variants={variants} animate={winningSide == "tails" ? "tails" : "heads"} key={roomID}>
           <GltfModel position={position} />
         </motion.group>
       </Suspense>

@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import "../Styles/CoinToss.scss";
 import ModelViewer from "./CoinModel";
 
-export default function Coin({ winningSide }) {
+export default function Coin({ winningSide, roomID }) {
   return (
     <div className="coin">
-      <ModelViewer winningSide={winningSide}/>
+      <ModelViewer winningSide={winningSide} roomID={roomID} />
     </div>
   );
 }

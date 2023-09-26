@@ -4,6 +4,7 @@ import heads from "../Assets/heads.png";
 import tails from "../Assets/tails.png";
 import coinstack from "../Assets/coin-stack.png";
 import Coin from "./CoinToss";
+import { AnimatePresence } from "framer-motion";
 
 function RoomCard({
   roomID,
@@ -42,7 +43,7 @@ function RoomCard({
             {status != "ongoing" ? (
               <p className="vs">VS</p>
             ) : (
-              <Coin winningSide={winningSide} />
+              <Coin winningSide={winningSide} roomID={roomID} />
             )}
           </div>
           <div className="player">
