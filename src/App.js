@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import { useEffect, useState } from "react";
 import ControlPanel from "./Components/ControlPanel";
 import Rooms from "./Components/Rooms";
@@ -8,49 +8,78 @@ import Chat from "./Components/Chat";
 const socket = socketIO.connect(window.SERVER_URL);
 
 function App() {
-  const [balance, setBalance] = useState(250.00); // BALANCE TO BE SET BY MASTER CLIENT;
+  const [balance, setBalance] = useState(250.0); // BALANCE TO BE SET BY MASTER CLIENT;
 
-  const [userData, setUserData] = useState({name : "TBD", id : ""})
+  const [userData, setUserData] = useState({ name: "TBD", id: "" });
 
   const [socketID, setSocketID] = useState("");
 
   const [rooms, setRooms] = useState({});
 
-  const [chat, setChat] = useState([])
+  const [chat, setChat] = useState([]);
 
-  const [clientsCount, setClientsCount] = useState(0)
+  const [clientsCount, setClientsCount] = useState(0);
 
-  useEffect(()=>{
+  useEffect(() => {
     socket.on("connected", (rooms, chat, id) => {
       setSocketID(id);
       setRooms(rooms);
       setChat(chat);
     });
     socket.on("balanceUpdate", (newBalance) => {
-      setBalance((prev)=>prev + newBalance);
+      setBalance((prev) => prev + newBalance);
     });
-    socket.on("rooms", (rooms) => {
-      setRooms(rooms);
-    }, []);
+    socket.on(
+      "rooms",
+      (rooms) => {
+        setRooms(rooms);
+      },
+      []
+    );
     socket.on("chat-update", (chat) => {
       setChat(chat);
     });
     socket.on("clients-count-update", (clientsCount) => {
-      setClientsCount(clientsCount)
-    })
-  }, [])
-
+      setClientsCount(clientsCount);
+    });
+  }, []);
 
   return (
     <div className="App">
       {socketID ? (
         <>
           <ControlPanel socket={socket} balance={balance} />
-          <Rooms socket={socket} rooms={rooms} socketID={socketID} balance={balance}/>
-          <Chat socket={socket} chat={chat} clientsCount={clientsCount} username={userData.name} />
+          <Rooms
+            socket={socket}
+            rooms={rooms}
+            socketID={socketID}
+            balance={balance}
+          />
+          <Chat
+            socket={socket}
+            chat={chat}
+            clientsCount={clientsCount}
+            username={userData.name}
+          />
         </>
       ) : (
-        <h1 style={{ textAlign: "center", color: "white" }}>LOADING</h1>
+        <svg
+          class="spinner"
+          width="4em"
+          height="4em"
+          viewBox="0 0 66 66"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            class="path"
+            fill="none"
+            stroke-width="6"
+            stroke-linecap="round"
+            cx="33"
+            cy="33"
+            r="30"
+          ></circle>
+        </svg>
       )}
     </div>
   );
