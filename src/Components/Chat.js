@@ -34,7 +34,7 @@ function useWindowDimensions() {
 }
 
 export default function Chat({ socket, chat, clientsCount, username }) {
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
 
   const chatVariants = {
     open: {
@@ -78,7 +78,7 @@ export default function Chat({ socket, chat, clientsCount, username }) {
   const [message, setMessage] = useState("");
 
   const sendMessage = (newMessage) => {
-    if(newMessage != ""){
+    if(newMessage !== ""){
       if (profanity.exists(newMessage)){
         newMessage = profanity.censor(newMessage)
       }

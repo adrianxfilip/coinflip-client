@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../Styles/ControlPanel.scss";
 import heads from "../Assets/heads.png";
 import tails from "../Assets/tails.png";
@@ -6,10 +6,6 @@ import coinstack from "../Assets/coin-stack.png";
 
 export default function ControlPanel({ socket, balance }) {
   const [betAmount, setAmount] = useState(0);
-
-  const UpdateAmount = () => {
-    
-  }
 
   const [selectedSide, setSide] = useState("");
 
@@ -21,7 +17,7 @@ export default function ControlPanel({ socket, balance }) {
 
   const createRoom = () => {
     selectedSide === "" ? setSelectSide(true) : setSelectSide(false);
-    betAmount == "" ? setSelectAmount(true) : setSelectAmount(false);
+    betAmount === "" ? setSelectAmount(true) : setSelectAmount(false);
     if (selectedSide && betAmount && betAmount <= balance) {
       socket.emit("create-room", { betAmount: betAmount, side: selectedSide });
     }
@@ -47,12 +43,12 @@ export default function ControlPanel({ socket, balance }) {
               min="0"
               value={betAmount}
               onChange={(e) => {
-                if (regex.test(e.target.value) || e.target.value == "") {
+                if (regex.test(e.target.value) || e.target.value === "") {
                   setAmount(e.target.value);
                 }
               }}
               onBlur={(e) => {
-                if (e.target.value === "" || e.target.value == "0") {
+                if (e.target.value === "" || e.target.value === "0") {
                   setAmount(0);
                 } else {
                   setAmount(parseFloat(e.target.value).toFixed(2));

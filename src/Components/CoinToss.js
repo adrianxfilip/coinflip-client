@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import "../Styles/CoinToss.scss";
 import ModelViewer from "./CoinModel";
 

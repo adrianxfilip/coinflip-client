@@ -1,5 +1,5 @@
-import React, { useRef, useState, Suspense } from "react";
-import { useLoader, useFrame } from "@react-three/fiber";
+import React, { useRef, Suspense } from "react";
+import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Canvas } from "@react-three/fiber";
 import { motion } from "framer-motion-3d";
@@ -61,18 +61,18 @@ const ModelViewer = ({ position = [0, 0, 0], winningSide, roomID }) => {
   const coinControls = useAnimation();
 
   useEffect(() => {
-    if (winningSide == "tails") {
+    if (winningSide === "tails") {
       coinControls.start("tails");
     } else {
       coinControls.start("heads");
     }
-  }, []);
+  }, [winningSide]);
 
   return (
     <Canvas>
       <ambientLight intensity={2} />
       <Suspense fallback={null}>
-        <motion.group variants={variants} animate={winningSide == "tails" ? "tails" : "heads"} key={roomID}>
+        <motion.group variants={variants} animate={winningSide === "tails" ? "tails" : "heads"} key={roomID}>
           <GltfModel position={position} />
         </motion.group>
       </Suspense>
