@@ -93,7 +93,7 @@ function App() {
         </svg>*/
         <form
           onSubmit={(e) => {
-            e.preventDefault
+            e.preventDefault()
             setBalance(250.0)
           }}
           className="set-name-form"
