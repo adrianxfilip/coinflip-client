@@ -92,7 +92,8 @@ function App() {
           ></circle>
         </svg>*/
         <form
-          onSubmit={() => {
+          onSubmit={(e) => {
+            e.preventDefault
             setBalance(250.0)
           }}
           className="set-name-form"
