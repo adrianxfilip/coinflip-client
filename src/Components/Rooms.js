@@ -14,12 +14,13 @@ function RoomCard({
   winningSide,
   socketID,
   socket,
-  balance
+  balance,
+  userData
 }) {
   
   const joinRoom = () => {
     if(balance >= betAmount){
-      socket.emit("join-room", roomID);
+      socket.emit("join-room", {roomID : roomID, userData : userData});
     }
   };
 
@@ -33,7 +34,7 @@ function RoomCard({
               className="player-side"
               alt="Coin"
             />
-            <p className="player-name">Player 1</p>
+            <p className="player-name">{playerOne.name}</p>
             <div className="bet-amount">
               <img src={coinstack} alt="Coin stack" />
               <p>{betAmount}</p>
@@ -63,7 +64,7 @@ function RoomCard({
                 </>
               )
             ) : (
-              <p className="player-name">Player 2</p>
+              <p className="player-name">{playerTwo.name}</p>
             )}
             <div className="bet-amount">
               <img src={coinstack} alt="Coin Stack"/>
@@ -78,7 +79,7 @@ function RoomCard({
   );
 }
 
-export default function Rooms({ socket, preFilteredRooms, socketID, balance }) {
+export default function Rooms({ socket, preFilteredRooms, socketID, balance, userData }) {
 
   const [filterRange, setFilterRange] = useState("all");
 
@@ -174,6 +175,7 @@ export default function Rooms({ socket, preFilteredRooms, socketID, balance }) {
                   socketID={socketID}
                   socket={socket}
                   balance={balance}
+                  userData={userData}
                 />
               ))
           : Object.keys(rooms).map((key) => (
@@ -188,6 +190,7 @@ export default function Rooms({ socket, preFilteredRooms, socketID, balance }) {
                 socketID={socketID}
                 socket={socket}
                 balance={balance}
+                userData={userData}
               />
             ))}
       </div>

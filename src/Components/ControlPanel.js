@@ -4,7 +4,7 @@ import heads from "../Assets/heads.png";
 import tails from "../Assets/tails.png";
 import coinstack from "../Assets/coin-stack.png";
 
-export default function ControlPanel({ socket, balance }) {
+export default function ControlPanel({ socket, balance, userData}) {
   const [betAmount, setAmount] = useState(0);
 
   const [selectedSide, setSide] = useState("");
@@ -19,7 +19,7 @@ export default function ControlPanel({ socket, balance }) {
     selectedSide === "" ? setSelectSide(true) : setSelectSide(false);
     betAmount === "" ? setSelectAmount(true) : setSelectAmount(false);
     if (selectedSide && betAmount && betAmount <= balance) {
-      socket.emit("create-room", { betAmount: betAmount, side: selectedSide });
+      socket.emit("create-room", { betAmount: betAmount, side: selectedSide, userData : userData });
     }
   };
 

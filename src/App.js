@@ -8,9 +8,18 @@ import Chat from "./Components/Chat";
 const socket = socketIO.connect(window.SERVER_URL);
 
 function App() {
-  const [balance, setBalance] = useState(250.0); // BALANCE TO BE SET BY MASTER CLIENT;
+  /*useEffect(() => {
+    window.addEventListener("message", (e) => {
+      if (e.origin === window.IFRAME_ORIGIN) {
+        //setBalance(e.data.balance)
+        setUserData({name:e.data.name, id : ""})
+      }
+    });
+  }, []);*/
 
-  const [userData, setUserData] = useState({ name: "TBD", id: "" });
+  const [balance, setBalance] = useState(); // BALANCE TO BE SET BY MASTER CLIENT;
+
+  const [userData, setUserData] = useState({ name: "", id: "" });
 
   const [socketID, setSocketID] = useState("");
 
@@ -26,8 +35,9 @@ function App() {
       setRooms(rooms);
       setChat(chat);
     });
-    socket.on("balanceUpdate", (newBalance) => {
-      setBalance((prev) => prev + newBalance);
+    socket.on("balanceUpdate", (winnings) => {
+      //window.parent.postMessage({winnings : winnings}, window.IFRAME_ORIGIN)
+      setBalance((prev) => prev + winnings);
     });
     socket.on(
       "rooms",
@@ -46,14 +56,15 @@ function App() {
 
   return (
     <div className="App">
-      {socketID ? (
+      {socketID && balance ? (
         <>
-          <ControlPanel socket={socket} balance={balance} />
+          <ControlPanel socket={socket} balance={balance} userData={userData} />
           <Rooms
             socket={socket}
             preFilteredRooms={rooms}
             socketID={socketID}
             balance={balance}
+            userData={userData}
           />
           <Chat
             socket={socket}
@@ -63,7 +74,7 @@ function App() {
           />
         </>
       ) : (
-        <svg
+        /*<svg
           className="spinner"
           width="4em"
           height="4em"
@@ -79,7 +90,25 @@ function App() {
             cy="33"
             r="30"
           ></circle>
-        </svg>
+        </svg>*/
+        <form
+          onSubmit={() => {
+            setBalance(250.0)
+          }}
+          className="set-name-form"
+        >
+          <label>
+            Choose a name first:
+            <input
+              type="text"
+              name="name"
+              onChange={(e) => {
+                setUserData({ ...userData, name: e.target.value });
+              }}
+            />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
       )}
     </div>
   );
