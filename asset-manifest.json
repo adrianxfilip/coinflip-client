@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/coinflip-client/static/css/main.6bb95e53.css",
-    "main.js": "/coinflip-client/static/js/main.b3877b3b.js",
+    "main.js": "/coinflip-client/static/js/main.7f8a85c0.js",
     "static/js/787.c4e7f8f9.chunk.js": "/coinflip-client/static/js/787.c4e7f8f9.chunk.js",
     "static/media/coin-stack.png": "/coinflip-client/static/media/coin-stack.cb4da22cb0ddaf5d20d8.png",
     "static/media/tails.png": "/coinflip-client/static/media/tails.4865c60bd9f53148018c.png",
     "static/media/heads.png": "/coinflip-client/static/media/heads.0cfee5759d29cbd60f72.png",
     "index.html": "/coinflip-client/index.html",
     "main.6bb95e53.css.map": "/coinflip-client/static/css/main.6bb95e53.css.map",
-    "main.b3877b3b.js.map": "/coinflip-client/static/js/main.b3877b3b.js.map",
+    "main.7f8a85c0.js.map": "/coinflip-client/static/js/main.7f8a85c0.js.map",
     "787.c4e7f8f9.chunk.js.map": "/coinflip-client/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.6bb95e53.css",
-    "static/js/main.b3877b3b.js"
+    "static/js/main.7f8a85c0.js"
   ]
 }
