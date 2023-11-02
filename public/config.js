@@ -1,4 +1,4 @@
-var SERVER_URL = "coinflip-403821.ey.r.appspot.com"
+var SERVER_URL = "https://coinflip-403821.ey.r.appspot.com"
 
 //DO NOT CHANGE FIRST AND LAST VALUES (0 AND 999999)
 var FILTERS = [[0,5],[5,10],[10,25],[25,50],[50,100],[100,999999]]
