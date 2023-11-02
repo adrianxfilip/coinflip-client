@@ -1,4 +1,4 @@
-var SERVER_URL = "https://coinflip-server.azurewebsites.net:443"
+var SERVER_URL = "https://coinflip-server.azurewebsites.net"
 //var SERVER_URL = "http://buratancunebunu.home.ro:443"
 
 //DO NOT CHANGE FIRST AND LAST VALUES (0 AND 999999)
