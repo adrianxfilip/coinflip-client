@@ -3,11 +3,11 @@
 .chat {
   position: -webkit-sticky; /* Safari */
   position: sticky;
-  top: 3em;
+  top: 2em;
   left: 0;
   margin: 0 0 0 2em;
   background-color: $light-bg;
-  height: 90vh;
+  height: 92vh;
   width: 24em;
   display: flex;
   flex-direction: column;
@@ -28,7 +28,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1em;
+    padding: 1em 1.5em;
     background: rgb(43,51,66);
     background: radial-gradient(ellipse at center top, rgba(43,51,66,1) 0%, rgba(33,37,49,1) 100%);
     border-top-left-radius: 15px;
@@ -37,7 +37,7 @@
       font-family: "Gabarito", sans-serif;
       font-size: 1.4em;
       font-weight: 600;
-      color: white;
+      color: $primary-color;
       margin: 0;
     }
     p:nth-child(2) {

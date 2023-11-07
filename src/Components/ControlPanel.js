@@ -27,7 +27,7 @@ export default function ControlPanel({ socket, balance, userData}) {
     <div className="control-panel-container">
       <div className="balance-wrapper">
         <h1 className="logo">COINFLIP</h1>
-        <p className="balance">Balanta <span>{balance.toFixed(2)} RON</span></p>
+        <p className="balance">{window.TEXTS.balance} <span>{balance.toFixed(2)} RON</span></p>
       </div>
       <div className="bet-amount-container">
         <div
@@ -144,7 +144,7 @@ export default function ControlPanel({ socket, balance, userData}) {
           />
         </div>
         <button className="submit-bet" onClick={createRoom}>
-          Create Game
+          {window.TEXTS.createGame}
         </button>
       </div>
     </div>

@@ -109,7 +109,7 @@ export default function Rooms({ socket, preFilteredRooms, socketID, balance, use
     <div className="rooms-container">
       <div className="filters-container">
         <div className="open-games">
-          <p>Open Games</p>{" "}
+          <p>{window.TEXTS.openGames}</p>{" "}
           <p>
             {
               Object.keys(rooms).filter((key) => rooms[key].status !== "closed")
