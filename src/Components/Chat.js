@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../Styles/Chat.scss";
 import { motion } from "framer-motion";
 import { Profanity, ProfanityOptions} from '@2toad/profanity';
@@ -11,14 +11,33 @@ profanity.addWords(['pula', 'pizda'])
 
 export default function Chat({ socket, chat, clientsCount, username }) {
 
+  const [isChatRestricted, setRestricted] = useState(false)
+
+  useEffect(()=> {
+    const chatController = JSON.parse(localStorage.getItem("chatController"))
+    const currentTime = Date.now()
+    if(chatController){
+      if(chatController.isChatRestricted){
+        if(Math.floor(Math.abs(currentTime - chatController.restrictionTime) / (60* 60 * 1000)) < 1){
+          setRestricted(true)
+        }else{
+          setRestricted(false)
+          localStorage.setItem("chatController", JSON.stringify({isChatRestricted : false, restrictionTime: 0}))
+        }
+      }
+    }
+  }, [isChatRestricted])
+
   const [message, setMessage] = useState("");
 
   const sendMessage = (newMessage) => {
     if(newMessage !== ""){
       if (profanity.exists(newMessage)){
-        newMessage = profanity.censor(newMessage)
+        setRestricted(true)
+        localStorage.setItem("chatController", JSON.stringify({isChatRestricted : true, restrictionTime: Date.now()}))
+      }else{
+        socket.emit("new-message", { name: username, message: newMessage });
       }
-      socket.emit("new-message", { name: username, message: newMessage });
     }
   };
 
@@ -47,15 +66,15 @@ export default function Chat({ socket, chat, clientsCount, username }) {
             sendMessage(message);
           }}
         >
-          <textarea
-            spellCheck="false"
+          <input
+           type="text"
             value={message}
             onChange={(e) => {
               setMessage(e.target.value);
             }}
-          ></textarea>
+          ></input>
           <button className="send-message-btn" type="submit">
-            <i className="fi fi-rr-paper-plane"></i>
+          <i className="fi fi-sr-paper-plane-top"></i>
           </button>
         </form>
       </motion.div>
