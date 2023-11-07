@@ -1,42 +1,12 @@
 .App {
-    padding: 1em 2em;
+    display: flex;
+    width: 100%;
     box-sizing: border-box;
-    .set-name-form{
-      margin: 35vh auto 0;
-      width: fit-content;
-      label{
-        color: white;
-        font-family: "Rubik", sans-serif;
-        text-align: center;
-        display: block;
-      }
-      input{
-        font-family: "Rubik", sans-serif;
-        display: block;
-        width: fit-content;
-        margin: 0 auto;
-      }
-      input[type="text"]{
-        margin: 1em 0;
-        font-size: 16px;
-        padding: .5em 1em;
-        border-radius: 10px;
-        border: none;
-      }
-      input[type="submit"]{
-        color: #141419;
-        background-color: #ff5252;
-        border: none;
-        font-size: 16px;
-        font-weight: 500;
-        border-radius: 10px;
-        padding: .5em 1em;
-        text-transform: uppercase;
-        cursor: pointer;
-      }
-      input:focus{
-        outline: none;
-      }
+    height: 400vh;
+    .game-container{
+      width: 100%;
+      margin: 3em 2em;
+      box-sizing: border-box;
     }
   }
   

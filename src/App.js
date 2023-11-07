@@ -17,9 +17,9 @@ function App() {
     });
   }, []);*/
 
-  const [balance, setBalance] = useState(); // BALANCE TO BE SET BY MASTER CLIENT;
+  const [balance, setBalance] = useState(250.0); // BALANCE TO BE SET BY MASTER CLIENT;
 
-  const [userData, setUserData] = useState({ name: "", id: "" });
+  const [userData, setUserData] = useState({ name: "User", id: "" });
 
   const [socketID, setSocketID] = useState("");
 
@@ -56,60 +56,31 @@ function App() {
 
   return (
     <div className="App">
-      {socketID && balance ? (
+      {socketID ? (
         <>
-          <ControlPanel socket={socket} balance={balance} userData={userData} />
-          <Rooms
-            socket={socket}
-            preFilteredRooms={rooms}
-            socketID={socketID}
-            balance={balance}
-            userData={userData}
-          />
           <Chat
             socket={socket}
             chat={chat}
             clientsCount={clientsCount}
             username={userData.name}
           />
+          <div className="game-container">
+            <ControlPanel
+              socket={socket}
+              balance={balance}
+              userData={userData}
+            />
+            <Rooms
+              socket={socket}
+              preFilteredRooms={rooms}
+              socketID={socketID}
+              balance={balance}
+              userData={userData}
+            />
+          </div>
         </>
       ) : (
-        /*<svg
-          className="spinner"
-          width="4em"
-          height="4em"
-          viewBox="0 0 66 66"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            className="path"
-            fill="none"
-            strokeWidth="6"
-            strokeLinecap="round"
-            cx="33"
-            cy="33"
-            r="30"
-          ></circle>
-        </svg>*/
-        <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            setBalance(250.0)
-          }}
-          className="set-name-form"
-        >
-          <label>
-            Choose a name first:
-            <input
-              type="text"
-              name="name"
-              onChange={(e) => {
-                setUserData({ ...userData, name: e.target.value });
-              }}
-            />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
+        <></>
       )}
     </div>
   );

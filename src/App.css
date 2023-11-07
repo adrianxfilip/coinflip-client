@@ -1,8 +1,3 @@
-.App {
-  padding: 1em 2em;
-  box-sizing: border-box;
-}
-
 @media only screen and (max-width: 600px) {
   .App {
     width: 100%;
