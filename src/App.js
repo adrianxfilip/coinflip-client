@@ -9,7 +9,7 @@ const socket = socketIO.connect(window.SERVER_URL);
 
 function App() {
   // TO BE REPLACED WITH GETTING ID FROM PARENT IFRAME
-  const id = useId();
+  //const id = useId();
 
   const [userData, setUserData] = useState({
     balance: null,
@@ -18,46 +18,49 @@ function App() {
   });
 
   const [sessionData, setSessionData] = useState({
-    socketID : null,
-    rooms : null,
-    connectedUsers : null,
-    chat : null
+    socketID: null,
+    rooms: null,
+    connectedUsers: null,
+    chat: null,
   });
 
   useEffect(() => {
+    console.log(sessionData, userData);
+  }, [sessionData]);
 
+  socket.on("connected", (rooms, chat, connectedUsers, socketID) => {
+    setSessionData({
+      socketID: socketID,
+      rooms: rooms,
+      connectedUsers: connectedUsers,
+      chat: chat,
+    });
     setUserData({
       balance: 250.0,
       name: "User",
-      id: id,
+      id: socketID,
     });
+  });
 
-    socket.on("connected", (rooms, chat, connectedUsers, socketID) => {
-      setSessionData({
-        rooms: rooms,
-        chat: chat,
-        connectedUsers: connectedUsers,
-        socketID: socketID,
-      });
-    });
+  socket.on("balance-update", (amount) => {
+    setUserData((prev) => console.log(prev));
+  });
 
-    socket.on("balanceUpdate", (winnings) => {
-      //window.parent.postMessage({winnings : winnings}, window.IFRAME_ORIGIN)
-      setUserData((prev) => console.log(prev));
-    });
+  socket.on("balance-return", (amount) => {
+    setUserData((prev) => console.log(prev));
+  });
 
-    socket.on("rooms", (rooms) => {
-      setSessionData({ ...sessionData, rooms: rooms });
-    });
+  socket.on("rooms-update", (rooms) => {
+    setSessionData({ ...sessionData, rooms: rooms });
+  });
 
-    socket.on("chat-update", (chat) => {
-      setSessionData({ ...sessionData, chat: chat });
-    });
+  socket.on("chat-update", (chat) => {
+    setSessionData({ ...sessionData, chat: chat });
+  });
 
-    socket.on("connected-users-update", (connectedUsers) => {
-      setSessionData({ ...sessionData, connectedUsers: connectedUsers });
-    });
-  }, []);
+  socket.on("connected-users-update", (connectedUsers) => {
+    //setSessionData({...sessionData, connectedUsers : connectedUsers})
+  });
 
   return (
     <div className="App">
@@ -65,7 +68,10 @@ function App() {
         <>
           <Chat
             socket={socket}
-            chatData={{connectedUsers : sessionData.connectedUsers, chat : sessionData.chat}}
+            chatData={{
+              connectedUsers: sessionData.connectedUsers,
+              chat: sessionData.chat,
+            }}
             username={userData.name}
           />
           <div className="game-container">

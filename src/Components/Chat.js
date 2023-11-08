@@ -11,8 +11,6 @@ profanity.addWords(["pula", "pizda"]);
 export default function Chat({ socket, username, chatData }) {
   const [isChatRestricted, setRestricted] = useState(false);
 
-  const [chat, setChat] = useState();
-
   useEffect(() => {
     const chatController = JSON.parse(localStorage.getItem("chatController"));
     const currentTime = Date.now();
@@ -55,7 +53,7 @@ export default function Chat({ socket, username, chatData }) {
     }
   };
 
-  return chat ? (
+  return chatData.chat ? (
     <motion.div className="chat">
       <div className="connected-users-wrapper">
         <p>Chat</p>
@@ -64,7 +62,7 @@ export default function Chat({ socket, username, chatData }) {
         </p>
       </div>
       <div className="messages-container">
-        {chat.map((message, index) => (
+        {chatData.chat.map((message, index) => (
           <div className="message-wrapper" key={"message" + index}>
             <p className="username">{message.username}</p>
             <p className="message">{message.message}</p>

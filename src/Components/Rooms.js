@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../Styles/Rooms.scss";
 import heads from "../Assets/heads.png";
 import tails from "../Assets/tails.png";
@@ -12,43 +12,43 @@ function RoomCard({
   userData
 }) {
 
-  /*const joinRoom = () => {
+  const joinRoom = () => {
     if (userData.balance >= roomData.betAmount) {
-      socket.emit("join-room", { roomID: roomID, userData: userData });
+      socket.emit("join-room", { roomID: roomData.roomID, userData: userData });
     }
-  };*/
+  };
 
   return (
     <div className="room-card">
-      {status !== "closed" ? (
+      {roomData.status !== "closed" ? (
         <>
           <div className="player">
             <img
-              src={playerOne.side === "heads" ? heads : tails}
+              src={roomData.playerOne.side === "heads" ? heads : tails}
               className="player-side"
               alt="Coin"
             />
-            <p className="player-name">{playerOne.name}</p>
+            <p className="player-name">{roomData.playerOne.name}</p>
             <div className="bet-amount">
               <img src={coinstack} alt="Coin stack" />
-              <p>{betAmount}</p>
+              <p>{roomData.betAmount}</p>
             </div>
           </div>
           <div className="countdown">
-            {status !== "ongoing" ? (
+            {roomData.status !== "ongoing" ? (
               <p className="vs">VS</p>
             ) : (
-              <Coin winningSide={winningSide} roomID={roomID} />
+              <Coin winningSide={roomData.winningSide} roomID={roomData.roomID} />
             )}
           </div>
           <div className="player">
             <img
-              src={playerOne.side === "heads" ? tails : heads}
+              src={roomData.playerOne.side === "heads" ? tails : heads}
               className="player-side"
               alt="Coin"
             />
-            {playerTwo.id === "" ? (
-              playerOne.id === socketID ? (
+            {roomData.playerTwo.id === "" ? (
+              roomData.playerOne.id === socketID ? (
                 <div className="dot-stretching"></div>
               ) : (
                 <>
@@ -58,11 +58,11 @@ function RoomCard({
                 </>
               )
             ) : (
-              <p className="player-name">{playerTwo.name}</p>
+              <p className="player-name">{roomData.playerTwo.name}</p>
             )}
             <div className="bet-amount">
               <img src={coinstack} alt="Coin Stack" />
-              <p>{betAmount}</p>
+              <p>{roomData.betAmount}</p>
             </div>
           </div>
         </>
@@ -170,7 +170,8 @@ export default function Rooms({ socket, sessionData, userData }) {
             )
             .map((key) => (
               <RoomCard
-                roomData={{ key: key, roomID: key, ...sessionData.rooms[key] }}
+                key = {key}
+                roomData={{ roomID: key, ...sessionData.rooms[key] }}
                 socketID={sessionData.socketID}
                 socket={socket}
                 userData={userData}

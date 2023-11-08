@@ -67,7 +67,7 @@ const ModelViewer = ({ position = [0, 0, 0], winningSide, roomID }) => {
     } else {
       coinControls.start("heads");
     }
-  }, [winningSide]);
+  }, [winningSide, coinControls]);
 
   return (
     <Canvas>
