@@ -5,10 +5,11 @@ import { Canvas } from "@react-three/fiber";
 import { motion } from "framer-motion-3d";
 import { useAnimation } from "framer-motion";
 import { useEffect } from "react";
+import coinModel from "../Assets/goldencoininset.glb"
 
 const GltfModel = ({ position = [0, 0, 0] }) => {
   const ref = useRef();
-  const gltf = useLoader(GLTFLoader, "/coin.glb");
+  const gltf = useLoader(GLTFLoader, coinModel);
 
   return (
     <>
@@ -29,29 +30,29 @@ const ModelViewer = ({ position = [0, 0, 0], winningSide, roomID }) => {
       scale: 1,
     },
     heads: {
-      rotateY:50.24,
+      rotateY:51.9,
       scale: [1,2,1],
       transition: {
         rotateY: {
-          duration: 1.5,
-          ease: [.4,.84,.66,.23]
+          duration: 2,
+          ease: [.6,.7,.7,.6]
         },
         scale:{
-            duration : 1.5,
+            duration : 2,
             ease : "easeIn"
         }
       },
     },
     tails: {
-        rotateY: 47.1,
+        rotateY: 48.8,
         scale: [1,2,1],
         transition: {
             rotateY: {
-                duration: 1.5,
-                ease: [.4,.84,.66,.23]
+                duration: 2,
+                ease: [.6,.7,.7,.6]
               },
               scale:{
-                  duration : 1.5,
+                  duration : 2,
                   ease : "easeIn"
               }
         },
@@ -71,6 +72,15 @@ const ModelViewer = ({ position = [0, 0, 0], winningSide, roomID }) => {
   return (
     <Canvas>
       <ambientLight intensity={2} />
+      <directionalLight intensity={1} position={[0,50,10]}/>
+      <directionalLight intensity={1} position={[0,0,50]}/>
+      <directionalLight intensity={1} position={[0,-50,50]}/>
+      <directionalLight intensity={1} position={[-50,50,10]}/>
+      <directionalLight intensity={1} position={[-50,0,50]}/>
+      <directionalLight intensity={1} position={[-50,-50,50]}/>
+      <directionalLight intensity={1} position={[50,50,10]}/>
+      <directionalLight intensity={1} position={[50,0,50]}/>
+      <directionalLight intensity={1} position={[50,-50,50]}/>
       <Suspense fallback={null}>
         <motion.group variants={variants} animate={winningSide === "tails" ? "tails" : "heads"} key={roomID}>
           <GltfModel position={position} />

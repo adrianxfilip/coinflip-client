@@ -6,23 +6,17 @@ import coinstack from "../Assets/coin-stack.png";
 import Coin from "./CoinToss";
 
 function RoomCard({
-  roomID,
-  betAmount,
-  playerOne,
-  playerTwo,
-  status,
-  winningSide,
+  roomData,
   socketID,
   socket,
-  balance,
   userData
 }) {
-  
-  const joinRoom = () => {
-    if(balance >= betAmount){
-      socket.emit("join-room", {roomID : roomID, userData : userData});
+
+  /*const joinRoom = () => {
+    if (userData.balance >= roomData.betAmount) {
+      socket.emit("join-room", { roomID: roomID, userData: userData });
     }
-  };
+  };*/
 
   return (
     <div className="room-card">
@@ -59,7 +53,7 @@ function RoomCard({
               ) : (
                 <>
                   <button className="join-room" onClick={joinRoom}>
-                    Join Game
+                    {window.TEXTS.joinGame}
                   </button>
                 </>
               )
@@ -67,7 +61,7 @@ function RoomCard({
               <p className="player-name">{playerTwo.name}</p>
             )}
             <div className="bet-amount">
-              <img src={coinstack} alt="Coin Stack"/>
+              <img src={coinstack} alt="Coin Stack" />
               <p>{betAmount}</p>
             </div>
           </div>
@@ -79,31 +73,27 @@ function RoomCard({
   );
 }
 
-export default function Rooms({ socket, preFilteredRooms, socketID, balance, userData }) {
+export default function Rooms({ socket, sessionData, userData }) {
+  const [filterSettings, setFilterSettings] = useState({
+    filterRanges: window.FILTERS,
+    activeRange: window.FILTERS[0],
+    filterDisplay: "All",
+    isOpen: false,
+  });
 
-  const [filterRange, setFilterRange] = useState("all");
+  /*const [roomsLimit, setRoomsLimit] = useState[5];
 
-  const [filterDisplay, setFilterDisplayed] = useState("All");
-
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-
-  const filterOptions = window.FILTERS;
-
-  const [rooms, setRooms] = useState(preFilteredRooms)
-
-  useEffect(()=>{
-    var index = Object.keys(preFilteredRooms).findLastIndex((key)=> preFilteredRooms[key].status !== "closed")
-    if(index <= 4){
-      index = 5
-    }else{
-      index=index+1
+  useEffect(() => {
+    console.log(sessionData.rooms);
+    var index = Object.keys(sessionData.rooms).findLastIndex(
+      (key) => sessionData.rooms[key].status !== "closed"
+    );
+    if (index > 5) {
+      setRoomsLimit(index);
+    } else {
+      setRoomsLimit(5);
     }
-    var result = Object.keys(preFilteredRooms).slice(0, index).reduce((result, key)=>{
-      result[key] = preFilteredRooms[key]
-      return result
-    }, {})
-    setRooms(result)
-  },[preFilteredRooms])
+  }, [sessionData.rooms]);*/
 
   return (
     <div className="rooms-container">
@@ -112,88 +102,84 @@ export default function Rooms({ socket, preFilteredRooms, socketID, balance, use
           <p>{window.TEXTS.openGames}</p>{" "}
           <p>
             {
-              Object.keys(rooms).filter((key) => rooms[key].status !== "closed")
-                .length
+              Object.keys(sessionData.rooms).filter(
+                (key) => sessionData.rooms[key].status !== "closed"
+              ).length
             }
           </p>
         </div>
         <div className="filters-wrapper">
           <button
             onClick={() => {
-              setIsFilterOpen(!isFilterOpen);
+              setFilterSettings({
+                ...filterSettings,
+                isOpen: !filterSettings.isOpen,
+              });
             }}
           >
             <i className="fi fi-rr-settings-sliders"></i>
-            {filterDisplay}
+            {filterSettings.filterDisplay}
           </button>
           <div
             className="filter-options-popup"
-            style={{ display: isFilterOpen ? "block" : "none" }}
+            style={{ display: filterSettings.isOpen ? "block" : "none" }}
           >
             <button
               onClick={() => {
-                setFilterRange("all");
-                setFilterDisplayed("All");
-                setIsFilterOpen(!isFilterOpen);
+                setFilterSettings({
+                  ...filterSettings,
+                  activeRange: filterSettings.filterRanges[0],
+                  filterDisplay: "All",
+                  isOpen: !filterSettings.isOpen,
+                });
               }}
             >
               All
             </button>
-            {filterOptions.map((range, index) => (
+            {filterSettings.filterRanges.map((range, index) => (
               <button
                 key={"filterOption" + index}
                 onClick={() => {
-                  setFilterRange(range);
-                  setFilterDisplayed(range[1] === 999999 ? range[0] + `+ ${window.CURRENCY}` : range[0] + " - " + range[1] + ` ${window.CURRENCY}`);
-                  setIsFilterOpen(!isFilterOpen);
+                  setFilterSettings({
+                    ...filterSettings,
+                    activeRange: range,
+                    filterDisplay:
+                      range[1] === 999999
+                        ? range[0] + `+ ${window.CURRENCY}`
+                        : range[0] + " - " + range[1] + ` ${window.CURRENCY}`,
+                    isOpen: !filterSettings.isOpen,
+                  });
                 }}
               >
-                {range[1] === 999999 ? range[0] + `+ ${window.CURRENCY}` : range[0] + " - " + range[1] + ` ${window.CURRENCY}`}
+                {range[1] === 999999
+                  ? range[0] + `+ ${window.CURRENCY}`
+                  : range[0] + " - " + range[1] + ` ${window.CURRENCY}`}
               </button>
             ))}
           </div>
         </div>
       </div>
-      <div className="rooms-wrapper">
-        {filterRange !== "all"
-          ? Object.keys(rooms)
-              .filter(
-                (key) =>
-                  (rooms[key].bet >= filterRange[0] &&
-                    rooms[key].bet < filterRange[1]) ||
-                  rooms[key].status === "closed"
-              )
-              .map((key) => (
-                <RoomCard
-                  key={key}
-                  roomID={key}
-                  betAmount={rooms[key].bet}
-                  playerOne={rooms[key].playerOne}
-                  playerTwo={rooms[key].playerTwo}
-                  status={rooms[key].status}
-                  winningSide={rooms[key].winningSide}
-                  socketID={socketID}
-                  socket={socket}
-                  balance={balance}
-                  userData={userData}
-                />
-              ))
-          : Object.keys(rooms).map((key) => (
+      {sessionData.rooms ? (
+        <div className="rooms-wrapper">
+          {Object.keys(sessionData.rooms)
+            .filter(
+              (key) =>
+                (sessionData.rooms[key].bet >= filterSettings.activeRange[0] &&
+                  sessionData.rooms[key].bet < filterSettings.activeRange[1]) ||
+                sessionData.rooms[key].status === "closed"
+            )
+            .map((key) => (
               <RoomCard
-                key={key}
-                roomID={key}
-                betAmount={rooms[key].bet}
-                playerOne={rooms[key].playerOne}
-                playerTwo={rooms[key].playerTwo}
-                status={rooms[key].status}
-                winningSide={rooms[key].winningSide}
-                socketID={socketID}
+                roomData={{ key: key, roomID: key, ...sessionData.rooms[key] }}
+                socketID={sessionData.socketID}
                 socket={socket}
-                balance={balance}
                 userData={userData}
               />
             ))}
-      </div>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

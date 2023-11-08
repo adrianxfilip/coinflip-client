@@ -53,26 +53,45 @@
       }
     }
   }
-  .chat-entries-wrapper {
+  .messages-container {
     flex: 1 1 auto;
     box-sizing: border-box;
-    overflow-y: hidden;
+    overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: white #1a1c24;
     padding: 0 0.8em 0 1em;
     display: flex;
     flex-direction: column-reverse;
-    .chat-entry {
-      color: rgb(211, 211, 211);
-      margin: 0.4em 0;
-      font-size: 0.9em;
-      font-family: "Rubik", sans-serif;
-      font-weight: 300;
-      span {
+    .message-wrapper {
+      margin: 0 0 .5em 0;
+      .username,.message{
+        font-family: "Poppins",sans-serif;
+        margin: 0;
+      }
+      .username{
+        color: rgb(156, 156, 156);
+        font-size: .8em;
+      }
+      .message{
         color: white;
-        font-weight: 500;
+        background-color: #252836;
+        padding: .5em 1em;
+        border-radius: 15px;
+        font-size: .9em;
+        text-wrap: wrap;
+        word-break: break-all;
       }
     }
+  }
+  .restricted-chat{
+    padding: .5em;
+    border: 2px solid rgb(129, 16, 16);
+    color: rgb(129, 16, 16);
+    font-family: "Gabarito", sans-serif;
+    font-weight: 500;
+    border-radius: 15px;
+    margin: .7em ;
+    text-align: center;
   }
   .message-form {
     margin: .7em ;
@@ -113,6 +132,27 @@
       -webkit-appearance: none;
       margin: 0;
     }
+  }
+  /* width */
+  .messages-container::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  .messages-container::-webkit-scrollbar-track {
+    background: #888;
+    border-radius: 5px;
+  }
+
+  /* Handle */
+  .messages-container::-webkit-scrollbar-thumb {
+    background: #474747;
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+  .messages-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
   }
 }
 

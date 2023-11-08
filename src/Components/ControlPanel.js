@@ -4,10 +4,12 @@ import heads from "../Assets/heads.png";
 import tails from "../Assets/tails.png";
 import coinstack from "../Assets/coin-stack.png";
 
-export default function ControlPanel({ socket, balance, userData}) {
-  const [betAmount, setAmount] = useState(0);
+export default function ControlPanel({ socket, userData}) {
 
-  const [selectedSide, setSide] = useState("");
+  const [betInfo, setBetInfo] = useState({
+    betAmount : 0,
+    selectedSide : null
+  })
 
   const [mustSelectSide, setSelectSide] = useState(false);
 
@@ -16,10 +18,10 @@ export default function ControlPanel({ socket, balance, userData}) {
   const regex = /^([0-9]+(\.?[0-9]?[0-9]?)?$)/;
 
   const createRoom = () => {
-    selectedSide === "" ? setSelectSide(true) : setSelectSide(false);
-    betAmount === "" ? setSelectAmount(true) : setSelectAmount(false);
-    if (selectedSide && betAmount && betAmount <= balance) {
-      socket.emit("create-room", { betAmount: betAmount, side: selectedSide, userData : userData });
+    betInfo.selectedSide ? setSelectSide(true) : setSelectSide(false);
+    betInfo.betAmount > 0 ? setSelectAmount(true) : setSelectAmount(false);
+    if (betInfo.selectedSide && betInfo.betAmount && betInfo.betAmount <= userData.balance) {
+      socket.emit("create-room", { betInfo: betInfo, userData : userData });
     }
   };
 
@@ -27,7 +29,7 @@ export default function ControlPanel({ socket, balance, userData}) {
     <div className="control-panel-container">
       <div className="balance-wrapper">
         <h1 className="logo">COINFLIP</h1>
-        <p className="balance">{window.TEXTS.balance} <span>{balance.toFixed(2)} RON</span></p>
+        <p className="balance">{window.TEXTS.balance} <span>{userData.balance.toFixed(2)} RON</span></p>
       </div>
       <div className="bet-amount-container">
         <div
@@ -41,24 +43,24 @@ export default function ControlPanel({ socket, balance, userData}) {
               className="amount-input"
               type="text"
               min="0"
-              value={betAmount}
+              value={betInfo.betAmount}
               onChange={(e) => {
                 if (regex.test(e.target.value) || e.target.value === "") {
-                  setAmount(e.target.value);
+                  setBetInfo({...betInfo, betAmount : e.target.value});
                 }
               }}
               onBlur={(e) => {
                 if (e.target.value === "" || e.target.value === "0") {
-                  setAmount(0);
+                  setBetInfo({...betInfo, betAmount : 0});
                 } else {
-                  setAmount(parseFloat(e.target.value).toFixed(2));
+                  setBetInfo({...betInfo, betAmount : parseFloat(e.target.value).toFixed(2)});
                 }
               }}
             ></input>{" "}
           </div>
           <button
             onClick={() => {
-              setAmount(0);
+              setBetInfo({...betInfo, betAmount : 0});
             }}
           >
             RESET
@@ -67,28 +69,28 @@ export default function ControlPanel({ socket, balance, userData}) {
         <div className="controls-wrapper">
           <button
             onClick={() => {
-              setAmount((parseFloat(betAmount) + 0.5).toFixed(2));
-            }}
+              setBetInfo({...betInfo, betAmount : (parseFloat(betInfo.betAmount) + 0.5).toFixed(2)});
+            }} 
           >
             +0.5
           </button>
           <button
             onClick={() => {
-              setAmount((parseFloat(betAmount) + 1).toFixed(2));
+              setBetInfo({...betInfo, betAmount : (parseFloat(betInfo.betAmount) + 1).toFixed(2)});
             }}
           >
             +1
           </button>
           <button
             onClick={() => {
-              setAmount((parseFloat(betAmount) + 10).toFixed(2));
+              setBetInfo({...betInfo, betAmount : (parseFloat(betInfo.betAmount) + 10).toFixed(2)});
             }}
           >
             +10
           </button>
           <button
             onClick={() => {
-              setAmount((parseFloat(betAmount) + 100).toFixed(2));
+              setBetInfo({...betInfo, betAmount : (parseFloat(betInfo.betAmount) + 100).toFixed(2)});
             }}
           >
             +100
@@ -96,7 +98,7 @@ export default function ControlPanel({ socket, balance, userData}) {
           <button
             className="half-btn"
             onClick={() => {
-              setAmount((parseFloat(betAmount) / 2).toFixed(2));
+              setBetInfo({...betInfo, betAmount : (parseFloat(betInfo.betAmount) / 2).toFixed(2)});
             }}
           >
             1/2
@@ -104,14 +106,14 @@ export default function ControlPanel({ socket, balance, userData}) {
           <button
             className="x2-btn"
             onClick={() => {
-              setAmount((parseFloat(betAmount) * 2).toFixed(2));
+              setBetInfo({...betInfo, betAmount : (parseFloat(betInfo.betAmount) * 2).toFixed(2)});
             }}
           >
             X2
           </button>
           <button
             onClick={() => {
-              setAmount(balance);
+              setBetInfo({...betInfo, betAmount : userData.balance});
             }}
           >
             MAX
@@ -128,18 +130,18 @@ export default function ControlPanel({ socket, balance, userData}) {
         >
           <img
             src={heads}
-            className={selectedSide === "heads" ? "selected-side" : ""}
+            className={betInfo.selectedSide === "heads" ? "selected-side" : ""}
             alt="Heads part of coin"
             onClick={() => {
-              setSide("heads");
+              setBetInfo({...betInfo, selectedSide : "heads"});
             }}
           />
           <img
             src={tails}
-            className={selectedSide === "tails" ? "selected-side" : ""}
+            className={betInfo.selectedSide === "tails" ? "selected-side" : ""}
             alt="Tails part of coin"
             onClick={() => {
-              setSide("tails");
+              setBetInfo({...betInfo, selectedSide : "tails"});
             }}
           />
         </div>
