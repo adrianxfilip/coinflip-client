@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Styles/ControlPanel.scss";
 import heads from "../Assets/heads.png";
 import tails from "../Assets/tails.png";
@@ -6,7 +6,7 @@ import coinstack from "../Assets/coin-stack.png";
 
 export default function ControlPanel({ socket, userData}) {
 
-  const [betInfo, setBetInfo] = useState({
+  const [betData, setBetData] = useState({
     betAmount : 0,
     selectedSide : null
   })
@@ -18,10 +18,11 @@ export default function ControlPanel({ socket, userData}) {
   const regex = /^([0-9]+(\.?[0-9]?[0-9]?)?$)/;
 
   const createRoom = () => {
-    betInfo.selectedSide ? setSelectSide(true) : setSelectSide(false);
-    betInfo.betAmount > 0 ? setSelectAmount(true) : setSelectAmount(false);
-    if (betInfo.selectedSide && betInfo.betAmount && betInfo.betAmount <= userData.balance) {
-      socket.emit("create-room", { betInfo: betInfo, userData : userData });
+    betData.selectedSide === null ? setSelectSide(true) : setSelectSide(false);
+    betData.betAmount === 0 ? setSelectAmount(true) : setSelectAmount(false);
+    if (betData.selectedSide != null && betData.betAmount != 0 && betData.betAmount <= userData.balance) {
+      console.log("create")
+      socket.emit("create-room", betData, userData);
     }
   };
 
@@ -43,24 +44,24 @@ export default function ControlPanel({ socket, userData}) {
               className="amount-input"
               type="text"
               min="0"
-              value={betInfo.betAmount}
+              value={betData.betAmount}
               onChange={(e) => {
                 if (regex.test(e.target.value) || e.target.value === "") {
-                  setBetInfo({...betInfo, betAmount : e.target.value});
+                  setBetData({...betData, betAmount : e.target.value});
                 }
               }}
               onBlur={(e) => {
                 if (e.target.value === "" || e.target.value === "0") {
-                  setBetInfo({...betInfo, betAmount : 0});
+                  setBetData({...betData, betAmount : 0});
                 } else {
-                  setBetInfo({...betInfo, betAmount : parseFloat(e.target.value).toFixed(2)});
+                  setBetData({...betData, betAmount : parseFloat(e.target.value).toFixed(2)});
                 }
               }}
             ></input>{" "}
           </div>
           <button
             onClick={() => {
-              setBetInfo({...betInfo, betAmount : 0});
+              setBetData({...betData, betAmount : 0});
             }}
           >
             RESET
@@ -69,28 +70,28 @@ export default function ControlPanel({ socket, userData}) {
         <div className="controls-wrapper">
           <button
             onClick={() => {
-              setBetInfo({...betInfo, betAmount : (parseFloat(betInfo.betAmount) + 0.5).toFixed(2)});
+              setBetData({...betData, betAmount : (parseFloat(betData.betAmount) + 0.5).toFixed(2)});
             }} 
           >
             +0.5
           </button>
           <button
             onClick={() => {
-              setBetInfo({...betInfo, betAmount : (parseFloat(betInfo.betAmount) + 1).toFixed(2)});
+              setBetData({...betData, betAmount : (parseFloat(betData.betAmount) + 1).toFixed(2)});
             }}
           >
             +1
           </button>
           <button
             onClick={() => {
-              setBetInfo({...betInfo, betAmount : (parseFloat(betInfo.betAmount) + 10).toFixed(2)});
+              setBetData({...betData, betAmount : (parseFloat(betData.betAmount) + 10).toFixed(2)});
             }}
           >
             +10
           </button>
           <button
             onClick={() => {
-              setBetInfo({...betInfo, betAmount : (parseFloat(betInfo.betAmount) + 100).toFixed(2)});
+              setBetData({...betData, betAmount : (parseFloat(betData.betAmount) + 100).toFixed(2)});
             }}
           >
             +100
@@ -98,7 +99,7 @@ export default function ControlPanel({ socket, userData}) {
           <button
             className="half-btn"
             onClick={() => {
-              setBetInfo({...betInfo, betAmount : (parseFloat(betInfo.betAmount) / 2).toFixed(2)});
+              setBetData({...betData, betAmount : (parseFloat(betData.betAmount) / 2).toFixed(2)});
             }}
           >
             1/2
@@ -106,14 +107,14 @@ export default function ControlPanel({ socket, userData}) {
           <button
             className="x2-btn"
             onClick={() => {
-              setBetInfo({...betInfo, betAmount : (parseFloat(betInfo.betAmount) * 2).toFixed(2)});
+              setBetData({...betData, betAmount : (parseFloat(betData.betAmount) * 2).toFixed(2)});
             }}
           >
             X2
           </button>
           <button
             onClick={() => {
-              setBetInfo({...betInfo, betAmount : userData.balance});
+              setBetData({...betData, betAmount : userData.balance});
             }}
           >
             MAX
@@ -130,18 +131,18 @@ export default function ControlPanel({ socket, userData}) {
         >
           <img
             src={heads}
-            className={betInfo.selectedSide === "heads" ? "selected-side" : ""}
+            className={betData.selectedSide === "heads" ? "selected-side" : ""}
             alt="Heads part of coin"
             onClick={() => {
-              setBetInfo({...betInfo, selectedSide : "heads"});
+              setBetData({...betData, selectedSide : "heads"});
             }}
           />
           <img
             src={tails}
-            className={betInfo.selectedSide === "tails" ? "selected-side" : ""}
+            className={betData.selectedSide === "tails" ? "selected-side" : ""}
             alt="Tails part of coin"
             onClick={() => {
-              setBetInfo({...betInfo, selectedSide : "tails"});
+              setBetData({...betData, selectedSide : "tails"});
             }}
           />
         </div>

@@ -31,7 +31,7 @@ function RoomCard({
             <p className="player-name">{roomData.playerOne.name}</p>
             <div className="bet-amount">
               <img src={coinstack} alt="Coin stack" />
-              <p>{roomData.betAmount}</p>
+              <p>{roomData.bet}</p>
             </div>
           </div>
           <div className="countdown">
@@ -47,8 +47,8 @@ function RoomCard({
               className="player-side"
               alt="Coin"
             />
-            {roomData.playerTwo.id === "" ? (
-              roomData.playerOne.id === socketID ? (
+            {roomData.playerTwo.socketID === "" ? (
+              roomData.playerOne.socketID === socketID ? (
                 <div className="dot-stretching"></div>
               ) : (
                 <>
@@ -62,7 +62,7 @@ function RoomCard({
             )}
             <div className="bet-amount">
               <img src={coinstack} alt="Coin Stack" />
-              <p>{roomData.betAmount}</p>
+              <p>{roomData.bet}</p>
             </div>
           </div>
         </>
