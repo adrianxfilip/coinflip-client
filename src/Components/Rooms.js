@@ -1,20 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../Styles/Rooms.scss";
 import heads from "../Assets/heads.png";
 import tails from "../Assets/tails.png";
 import coinstack from "../Assets/coin-stack.png";
 import Coin from "./CoinToss";
 
-function RoomCard({
-  roomData,
-  socketID,
-  socket,
-  userData
-}) {
-
+function RoomCard({ roomData, socketID, socket, userData }) {
   const joinRoom = () => {
-    if (userData.balance >= roomData.betAmount) {
-      socket.emit("join-room", { roomID: roomData.roomID, userData: userData });
+    if (userData.balance >= roomData.bet) {
+      socket.emit("join-room", roomData.roomID, userData);
     }
   };
 
@@ -38,7 +32,10 @@ function RoomCard({
             {roomData.status !== "ongoing" ? (
               <p className="vs">VS</p>
             ) : (
-              <Coin winningSide={roomData.winningSide} roomID={roomData.roomID} />
+              <Coin
+                winningSide={roomData.winningSide}
+                roomID={roomData.roomID}
+              />
             )}
           </div>
           <div className="player">
@@ -81,10 +78,9 @@ export default function Rooms({ socket, sessionData, userData }) {
     isOpen: false,
   });
 
-  /*const [roomsLimit, setRoomsLimit] = useState[5];
+  const [roomsLimit, setRoomsLimit] = useState(5);
 
   useEffect(() => {
-    console.log(sessionData.rooms);
     var index = Object.keys(sessionData.rooms).findLastIndex(
       (key) => sessionData.rooms[key].status !== "closed"
     );
@@ -93,7 +89,7 @@ export default function Rooms({ socket, sessionData, userData }) {
     } else {
       setRoomsLimit(5);
     }
-  }, [sessionData.rooms]);*/
+  }, [sessionData.rooms]);
 
   return (
     <div className="rooms-container">
@@ -168,15 +164,19 @@ export default function Rooms({ socket, sessionData, userData }) {
                   sessionData.rooms[key].bet < filterSettings.activeRange[1]) ||
                 sessionData.rooms[key].status === "closed"
             )
-            .map((key) => (
-              <RoomCard
-                key = {key}
-                roomData={{ roomID: key, ...sessionData.rooms[key] }}
-                socketID={sessionData.socketID}
-                socket={socket}
-                userData={userData}
-              />
-            ))}
+            .map((key, index) =>
+              index < roomsLimit + 1 ? (
+                <RoomCard
+                  key={key}
+                  roomData={{ roomID: key, ...sessionData.rooms[key] }}
+                  socketID={sessionData.socketID}
+                  socket={socket}
+                  userData={userData}
+                />
+              ) : (
+                <></>
+              )
+            )}
         </div>
       ) : (
         <></>

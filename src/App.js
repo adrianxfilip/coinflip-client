@@ -62,26 +62,25 @@ function App() {
       });
       setUserData({
         balance: 250.0,
-        name: "User",
+        name: "user"+id,
         playerID: id,
         socketID: socketID
       });
     });
-  
-    socket.on("balance-update", (amount) => {
-      console.log(amount)
-      setUserData((prev) => ({
-        ...prev,
-        balance : prev.balance + amount
-      }));
-    });
-  
+
     socket.on("rooms-update", (rooms) => {
       console.log(rooms)
       dispatchSessionData({
         type: "rooms-update",
         payload: rooms,
       });
+    });
+  
+    socket.on("balance-update", (amount) => {
+      setUserData((prev) => ({
+        ...prev,
+        balance : prev.balance + amount
+      }));
     });
   
     socket.on("chat-update", (chat) => {
@@ -92,7 +91,6 @@ function App() {
     });
   
     socket.on("connected-users-update", (connectedUsers) => {
-      console.log("update")
       dispatchSessionData({
         type: "connected-users-update",
         payload: connectedUsers,

@@ -21,7 +21,6 @@ export default function ControlPanel({ socket, userData}) {
     betData.selectedSide === null ? setSelectSide(true) : setSelectSide(false);
     betData.betAmount === 0 ? setSelectAmount(true) : setSelectAmount(false);
     if (betData.selectedSide != null && betData.betAmount != 0 && betData.betAmount <= userData.balance) {
-      console.log("create")
       socket.emit("create-room", betData, userData);
     }
   };
