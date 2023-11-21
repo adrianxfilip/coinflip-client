@@ -3,13 +3,17 @@ import "../Styles/ControlPanel.scss";
 import heads from "../Assets/heads.png";
 import tails from "../Assets/tails.png";
 import coinstack from "../Assets/coin-stack.png";
+import { motion } from "framer-motion";
+import ModelViewer from "./ControlPanelCoin";
+import logo from "../Assets/logo.png";
+import Chat from "./Chat";
 
-export default function ControlPanel({ socket, userData}) {
+export default function ControlPanel({ socket, userData, chatData }) {
 
   const [betData, setBetData] = useState({
-    betAmount : 0,
-    selectedSide : null
-  })
+    betAmount: 0,
+    selectedSide: null,
+  });
 
   const [mustSelectSide, setSelectSide] = useState(false);
 
@@ -20,135 +24,342 @@ export default function ControlPanel({ socket, userData}) {
   const createRoom = () => {
     betData.selectedSide === null ? setSelectSide(true) : setSelectSide(false);
     betData.betAmount === 0 ? setSelectAmount(true) : setSelectAmount(false);
-    if (betData.selectedSide != null && betData.betAmount != 0 && betData.betAmount <= userData.balance) {
+    if (
+      betData.selectedSide != null &&
+      betData.betAmount != 0 &&
+      betData.betAmount <= userData.balance
+    ) {
       socket.emit("create-room", betData, userData);
     }
   };
 
+  const [showChat, setShowChat] = useState(false)
+
   return (
     <div className="control-panel-container">
-      <div className="balance-wrapper">
-        <h1 className="logo">COINFLIP</h1>
-        <p className="balance">{window.TEXTS.balance} <span>{userData.balance.toFixed(2)} RON</span></p>
-      </div>
-      <div className="bet-amount-container">
-        <div
-          className={
-            mustSelectAmount ? "amount-wrapper not-selected" : "amount-wrapper"
-          }
-        >
+      <Chat socket={socket} username={userData.name} chatData={chatData} showChat={showChat} closeChat={()=>{setShowChat(false)}}/>
+      <>
+        <div className="header">
+          <img src={logo}></img>
           <div>
-            <img src={coinstack} alt="Stack of coins" />
-            <input
-              className="amount-input"
-              type="text"
-              min="0"
-              value={betData.betAmount}
-              onChange={(e) => {
-                if (regex.test(e.target.value) || e.target.value === "") {
-                  setBetData({...betData, betAmount : e.target.value});
-                }
-              }}
-              onBlur={(e) => {
-                if (e.target.value === "" || e.target.value === "0") {
-                  setBetData({...betData, betAmount : 0});
-                } else {
-                  setBetData({...betData, betAmount : parseFloat(e.target.value).toFixed(2)});
-                }
-              }}
-            ></input>{" "}
+            <i className="fi fi-rr-messages" onClick={()=>{setShowChat(true)}}></i>
+            <i className="fi fi-rr-info"></i>
           </div>
-          <button
-            onClick={() => {
-              setBetData({...betData, betAmount : 0});
-            }}
-          >
-            RESET
-          </button>
         </div>
-        <div className="controls-wrapper">
-          <button
-            onClick={() => {
-              setBetData({...betData, betAmount : (parseFloat(betData.betAmount) + 0.5).toFixed(2)});
-            }} 
-          >
-            +0.5
-          </button>
-          <button
-            onClick={() => {
-              setBetData({...betData, betAmount : (parseFloat(betData.betAmount) + 1).toFixed(2)});
-            }}
-          >
-            +1
-          </button>
-          <button
-            onClick={() => {
-              setBetData({...betData, betAmount : (parseFloat(betData.betAmount) + 10).toFixed(2)});
-            }}
-          >
-            +10
-          </button>
-          <button
-            onClick={() => {
-              setBetData({...betData, betAmount : (parseFloat(betData.betAmount) + 100).toFixed(2)});
-            }}
-          >
-            +100
-          </button>
-          <button
-            className="half-btn"
-            onClick={() => {
-              setBetData({...betData, betAmount : (parseFloat(betData.betAmount) / 2).toFixed(2)});
-            }}
-          >
-            1/2
-          </button>
-          <button
-            className="x2-btn"
-            onClick={() => {
-              setBetData({...betData, betAmount : (parseFloat(betData.betAmount) * 2).toFixed(2)});
-            }}
-          >
-            X2
-          </button>
-          <button
-            onClick={() => {
-              setBetData({...betData, betAmount : userData.balance});
-            }}
-          >
-            MAX
-          </button>
+        <div className="control-panel-wrapper">
+          <div className="side-pick-container">
+            <ModelViewer side={betData.selectedSide} />
+            <div className="side-pick-wrapper">
+              <motion.button
+                className={
+                  mustSelectSide
+                    ? "side-pick-button not-selected"
+                    : "side-pick-button"
+                }
+                initial={{
+                  backgroundImage:
+                    "radial-gradient( circle farthest-corner at 10% 20%,  #100d13 0% , #100d13 100% )",
+                  color: "#ffba0d",
+                  transition: {
+                    duration: 0.1,
+                  },
+                }}
+                animate={
+                  betData.selectedSide === "heads"
+                    ? {
+                        backgroundImage:
+                          "radial-gradient( circle farthest-corner at 10% 20%,  #f9e833 0%, #fac43b 100% )",
+                        color: "#100d13",
+                      }
+                    : {}
+                }
+                whileHover={{
+                  backgroundImage:
+                    "radial-gradient( circle farthest-corner at 10% 20%,  #f9e833 0%, #fac43b 100% )",
+                  color: "#100d13",
+                  transition: {
+                    duration: 0.1,
+                  },
+                }}
+                whileTap={{
+                  scale: 0.85,
+                }}
+                onClick={() => {
+                  setBetData({ ...betData, selectedSide: "heads" });
+                  if (mustSelectSide) {
+                    setSelectSide(false);
+                  }
+                }}
+              >
+                {window.TEXTS.heads}
+              </motion.button>
+              <motion.button
+                className={
+                  mustSelectSide
+                    ? "side-pick-button not-selected"
+                    : "side-pick-button"
+                }
+                initial={{
+                  backgroundImage:
+                    "radial-gradient( circle farthest-corner at 10% 20%,  #100d13 0%, #100d13 100.2% )",
+                  color: "#ffba0d",
+                  transition: {
+                    duration: 0.1,
+                  },
+                }}
+                animate={
+                  betData.selectedSide === "tails"
+                    ? {
+                        backgroundImage:
+                          "radial-gradient( circle farthest-corner at 10% 20%,  #f9e833 0%, #fac43b 100% )",
+                        color: "#100d13",
+                      }
+                    : {}
+                }
+                whileHover={{
+                  backgroundImage:
+                    "radial-gradient( circle farthest-corner at 10% 20%,  #f9e833 0%, #fac43b 100.2% )",
+                  color: "#100d13",
+                  transition: {
+                    duration: 0.1,
+                  },
+                }}
+                whileTap={{
+                  scale: 0.85,
+                }}
+                onClick={() => {
+                  setBetData({ ...betData, selectedSide: "tails" });
+                  if (mustSelectSide) {
+                    setSelectSide(false);
+                  }
+                }}
+              >
+                {window.TEXTS.tails}
+              </motion.button>
+            </div>
+            <div className="bet-amount-container">
+              <p className="balance">
+                {window.TEXTS.balance} :{" "}
+                <span>
+                  {userData.balance} {window.CURRENCY}
+                </span>
+              </p>
+              <div
+                className={
+                  mustSelectAmount
+                    ? "bet-amount-wrapper not-selected"
+                    : "bet-amount-wrapper"
+                }
+              >
+                <img src={coinstack} alt="Stack of coins" />
+                <input
+                  className="amount-input"
+                  type="text"
+                  min="0"
+                  value={betData.betAmount}
+                  onChange={(e) => {
+                    if (regex.test(e.target.value) || e.target.value === "") {
+                      setBetData({ ...betData, betAmount: e.target.value });
+                      if (mustSelectAmount) {
+                        setSelectAmount(false);
+                      }
+                    }
+                  }}
+                  onBlur={(e) => {
+                    if (e.target.value === "" || e.target.value === "0") {
+                      setBetData({ ...betData, betAmount: 0 });
+                    } else {
+                      setBetData({
+                        ...betData,
+                        betAmount: parseFloat(e.target.value).toFixed(2),
+                      });
+                    }
+                  }}
+                ></input>{" "}
+                <button
+                  onClick={() => {
+                    setBetData({ ...betData, betAmount: 0 });
+                  }}
+                >
+                  RESET
+                </button>
+              </div>
+              <div className="controls-wrapper">
+                <motion.button
+                  initial={{
+                    backgroundImage:
+                      "radial-gradient( circle farthest-corner at 10% 20%,  #100d13 0%, #100d13 100.2% )",
+                    color: "#ffba0d",
+                    transition: {
+                      duration: 0.1,
+                    },
+                  }}
+                  whileHover={{
+                    backgroundImage:
+                      "radial-gradient( circle farthest-corner at 10% 20%,  #f9e833 0%, #fac43b 100.2% )",
+                    color: "#100d13",
+                    transition: {
+                      duration: 0.1,
+                    },
+                  }}
+                  whileTap={{
+                    scale: 0.85,
+                  }}
+                  onClick={() => {
+                    setBetData({
+                      ...betData,
+                      betAmount: (parseFloat(betData.betAmount) + 0.5).toFixed(
+                        2
+                      ),
+                    });
+                  }}
+                >
+                  +0.5
+                </motion.button>
+                <motion.button
+                  initial={{
+                    backgroundImage:
+                      "radial-gradient( circle farthest-corner at 10% 20%,  #100d13 0%, #100d13 100.2% )",
+                    color: "#ffba0d",
+                    transition: {
+                      duration: 0.1,
+                    },
+                  }}
+                  whileHover={{
+                    backgroundImage:
+                      "radial-gradient( circle farthest-corner at 10% 20%,  #f9e833 0%, #fac43b 100.2% )",
+                    color: "#100d13",
+                    transition: {
+                      duration: 0.1,
+                    },
+                  }}
+                  whileTap={{
+                    scale: 0.85,
+                  }}
+                  onClick={() => {
+                    setBetData({
+                      ...betData,
+                      betAmount: (parseFloat(betData.betAmount) + 1).toFixed(2),
+                    });
+                  }}
+                >
+                  +1
+                </motion.button>
+                <motion.button
+                  initial={{
+                    backgroundImage:
+                      "radial-gradient( circle farthest-corner at 10% 20%,  #100d13 0%, #100d13 100.2% )",
+                    color: "#ffba0d",
+                    transition: {
+                      duration: 0.1,
+                    },
+                  }}
+                  whileHover={{
+                    backgroundImage:
+                      "radial-gradient( circle farthest-corner at 10% 20%,  #f9e833 0%, #fac43b 100.2% )",
+                    color: "#100d13",
+                    transition: {
+                      duration: 0.1,
+                    },
+                  }}
+                  whileTap={{
+                    scale: 0.85,
+                  }}
+                  onClick={() => {
+                    setBetData({
+                      ...betData,
+                      betAmount: (parseFloat(betData.betAmount) + 5).toFixed(2),
+                    });
+                  }}
+                >
+                  +5
+                </motion.button>
+                <motion.button
+                  initial={{
+                    backgroundImage:
+                      "radial-gradient( circle farthest-corner at 10% 20%,  #100d13 0%, #100d13 100.2% )",
+                    color: "#ffba0d",
+                    transition: {
+                      duration: 0.1,
+                    },
+                  }}
+                  whileHover={{
+                    backgroundImage:
+                      "radial-gradient( circle farthest-corner at 10% 20%,  #f9e833 0%, #fac43b 100.2% )",
+                    color: "#100d13",
+                    transition: {
+                      duration: 0.1,
+                    },
+                  }}
+                  whileTap={{
+                    scale: 0.85,
+                  }}
+                  onClick={() => {
+                    setBetData({
+                      ...betData,
+                      betAmount: (parseFloat(betData.betAmount) + 10).toFixed(
+                        2
+                      ),
+                    });
+                  }}
+                >
+                  +10
+                </motion.button>
+                <motion.button
+                  initial={{
+                    backgroundImage:
+                      "radial-gradient( circle farthest-corner at 10% 20%,  #100d13 0%, #100d13 100.2% )",
+                    color: "#ffba0d",
+                    transition: {
+                      duration: 0.1,
+                    },
+                  }}
+                  whileHover={{
+                    backgroundImage:
+                      "radial-gradient( circle farthest-corner at 10% 20%,  #f9e833 0%, #fac43b 100.2% )",
+                    color: "#100d13",
+                    transition: {
+                      duration: 0.1,
+                    },
+                  }}
+                  whileTap={{
+                    scale: 0.85,
+                  }}
+                  onClick={() => {
+                    setBetData({ ...betData, betAmount: userData.balance });
+                  }}
+                >
+                  MAX
+                </motion.button>
+              </div>
+              <motion.button
+                className="submit-bet"
+                initial={{
+                  backgroundImage:
+                    "radial-gradient( circle farthest-corner at 10% 52%,  #f9e833 0%, #fac43b 100.2% )",
+                  transition: {
+                    duration: 0.1,
+                  },
+                }}
+                whileHover={{
+                  backgroundImage:
+                    "radial-gradient( circle farthest-corner at 10% 52%,  #f9e833 70%, #fac43b 100.2% )",
+                  scale: 1.02,
+                  transition: {
+                    duration: 0.1,
+                  },
+                }}
+                whileTap={{
+                  scale: 0.97,
+                }}
+                onClick={createRoom}
+              >
+                {window.TEXTS.createGame}
+              </motion.button>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="side-pick-container">
-        <div
-          className={
-            mustSelectSide
-              ? "side-pick-wrapper not-selected"
-              : "side-pick-wrapper"
-          }
-        >
-          <img
-            src={heads}
-            className={betData.selectedSide === "heads" ? "selected-side" : ""}
-            alt="Heads part of coin"
-            onClick={() => {
-              setBetData({...betData, selectedSide : "heads"});
-            }}
-          />
-          <img
-            src={tails}
-            className={betData.selectedSide === "tails" ? "selected-side" : ""}
-            alt="Tails part of coin"
-            onClick={() => {
-              setBetData({...betData, selectedSide : "tails"});
-            }}
-          />
-        </div>
-        <button className="submit-bet" onClick={createRoom}>
-          {window.TEXTS.createGame}
-        </button>
-      </div>
+      </>
     </div>
   );
 }

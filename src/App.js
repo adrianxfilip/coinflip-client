@@ -4,6 +4,7 @@ import ControlPanel from "./Components/ControlPanel";
 import Rooms from "./Components/Rooms";
 import socketIO from "socket.io-client";
 import Chat from "./Components/Chat";
+import Header from "./Components/Header";
 
 const socket = socketIO.connect(window.SERVER_URL);
 
@@ -16,30 +17,44 @@ function sessionDataReducer(state, action) {
     case "connected-users-update":
       return {
         ...state,
-        connectedUsers : action.payload
+        connectedUsers: action.payload,
       };
     case "rooms-update":
       return {
         ...state,
-        rooms : action.payload
+        rooms: action.payload,
       };
     case "chat-update":
       return {
         ...state,
-        chat : action.payload
-      }
+        chat: action.payload,
+      };
   }
 }
 
-function App() {
+const names = [
+  "Robert",
+  "Kevin",
+  "Jeke",
+  "Mevin",
+  "Keke",
+  "Leke",
+  "Bicu",
+  "Robi",
+  "Darius",
+  "Shain",
+  "Marius",
+  "Dairos",
+];
 
+function App() {
   const id = useId();
 
   const [userData, setUserData] = useState({
     balance: null,
     name: "",
     playerID: "",
-    socketID: ""
+    socketID: "",
   });
 
   const [sessionData, dispatchSessionData] = useReducer(sessionDataReducer, {
@@ -49,7 +64,7 @@ function App() {
     chat: null,
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     socket.on("connected", (rooms, chat, connectedUsers, socketID) => {
       dispatchSessionData({
         type: "connected",
@@ -61,62 +76,62 @@ function App() {
         },
       });
       setUserData({
-        balance: 250.0,
-        name: "user"+id,
+        balance: 2500.0,
+        name: names[Math.floor(Math.random() * names.length)],
         playerID: id,
-        socketID: socketID
+        socketID: socketID,
       });
     });
 
     socket.on("rooms-update", (rooms) => {
-      console.log(rooms)
+      console.log(rooms);
       dispatchSessionData({
         type: "rooms-update",
         payload: rooms,
       });
     });
-  
+
     socket.on("balance-update", (amount) => {
       setUserData((prev) => ({
         ...prev,
-        balance : prev.balance + amount
+        balance: prev.balance + amount,
       }));
     });
-  
+
     socket.on("chat-update", (chat) => {
       dispatchSessionData({
         type: "chat-update",
         payload: chat,
       });
     });
-  
+
     socket.on("connected-users-update", (connectedUsers) => {
       dispatchSessionData({
         type: "connected-users-update",
         payload: connectedUsers,
       });
     });
-  }, [])
+  }, []);
 
   return (
     <div className="App">
       {sessionData.socketID && sessionData.rooms ? (
         <>
-          <Chat
-            socket={socket}
-            chatData={{
-              connectedUsers: sessionData.connectedUsers,
-              chat: sessionData.chat,
-            }}
-            username={userData.name}
-          />
           <div className="game-container">
-            <ControlPanel socket={socket} userData={userData} />
+            <ControlPanel
+              socket={socket}
+              userData={userData}
+              chatData={{
+                connectedUsers: sessionData.connectedUsers,
+                chat: sessionData.chat,
+              }}
+            />
             <Rooms
               socket={socket}
               sessionData={sessionData}
               userData={userData}
             />
+            <Chat socket={socket} username={userData.name} />
           </div>
         </>
       ) : (

@@ -8,7 +8,7 @@ options.grawlix = "*****";
 const profanity = new Profanity(options);
 profanity.addWords(["pula", "pizda"]);
 
-export default function Chat({ socket, username, chatData }) {
+export default function Chat({ socket, username, chatData, showChat, closeChat }) {
   const [isChatRestricted, setRestricted] = useState(false);
 
   useEffect(() => {
@@ -53,13 +53,14 @@ export default function Chat({ socket, username, chatData }) {
     }
   };
 
-  return chatData.chat ? (
+  return chatData && showChat ? (
     <motion.div className="chat">
       <div className="connected-users-wrapper">
         <p>Chat</p>
-        <p>
-          <i className="fi fi-br-users"></i> {chatData.connectedUsers}
-        </p>
+        <div>
+          {/*<i className="fi fi-br-users">{chatData.connectedUsers}</i> */}
+          <i className="fi fi-rr-cross-small" onClick={closeChat}></i>
+        </div>
       </div>
       <div className="messages-container">
         {chatData.chat.map((message, index) => (

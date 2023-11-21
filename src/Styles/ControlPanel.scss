@@ -1,297 +1,160 @@
 @import "./variables";
 
 .control-panel-container {
+  position: relative;
+  background-color: $light-bg;
+  background: radial-gradient(circle farthest-corner at 0% 0%, rgb(37, 29, 46) 0%, rgba(16,13,19,1) 100%);
+  padding: 2em;
+  border-radius: 15px;
+  flex-wrap: nowrap;
+  width: 400px;
+  height: 100%;
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  font-size: 15px;
-  width: 100%;
-  .balance-wrapper{
-    margin: 0 auto 0 0;
-    h1 {
-      font-family: "Gabarito", sans-serif;
-      color: $primary-color;
-      font-size: 1.8em;
-      font-weight: 700;
-      margin: 0;
-    }
-    .balance{
-      margin: 0;
-      color: white;
-      font-size: .7em;
-      font-family: "Poppins", sans-serif;
-      span{
-        font-size: 1.5em !important;
-      }
-    }
-  }
-  .side-pick-container {
+  box-shadow:
+  0px 0px 1.6px rgba(0, 0, 0, 0.055),
+  0px 0px 3.6px rgba(0, 0, 0, 0.08),
+  0px 0px 6.3px rgba(0, 0, 0, 0.099),
+  0px 0px 10px rgba(0, 0, 0, 0.115),
+  0px 0px 15.5px rgba(0, 0, 0, 0.131),
+  0px 0px 24.1px rgba(0, 0, 0, 0.15),
+  0px 0px 40px rgba(0, 0, 0, 0.175),
+  0px 0px 80px rgba(0, 0, 0, 0.23)
+;
+  .header{
     display: flex;
     align-items: center;
-    height: 2.5em;
-    .side-pick-wrapper {
-      box-shadow:
-      0px 2.1px 5.3px #ffb90c14,
-      0px 6.9px 17.9px #ffb90c14,
-      0px 31px 80px #ffb90c14
-    ;
-    background: radial-gradient(ellipse at center top, rgba(43,51,66,1) 0%, rgba(33,37,49,1) 100%);
-      border: 1px solid rgba(122, 122, 122, 0.616);
-      width: fit-content;
-      padding: 0 .8em;
-      border-radius: 5px;
-      align-items: center;
-      margin: 0 0.5em 0 0;
-      display: flex;
-      align-items: center;
-      box-sizing: border-box;
-      height: 100%;
-      p {
-        color: white;
-        margin: 0;
-        margin: 0 10px 0 0;
-        font-weight: 300;
-        font-size: 0.9em;
-      }
-      img {
-        display: block;
-        width: 1.8em;
+    justify-content: space-between;
+    margin: 0 0 3em 0;
+    img{
+      width: 200px;
+    }
+    div{
+      display: inline-block;
+      .fi{
+        display: inline-block;
+        color: $primary-color;
+        background-color: $dark-bg;
+        padding: .4em;
+        padding-bottom: .2em;
+        font-size: 1.3em;
+        border-radius: 15px;
         cursor: pointer;
-        margin: 0 0.2em;
-        filter: saturate(0%);
-        transition: all 0.1s linear;
       }
-      img:hover {
-        transform: scale(1.05);
+      .fi:first-child{
+        margin-right: .5em;
       }
-      .selected-side {
-        filter: saturate(100%);
-        transform: scale(1.05);
-      }
-    }
-    .submit-bet {
-      box-shadow:
-      0px 2.1px 5.3px #ffb90c14,
-      0px 6.9px 17.9px #ffb90c14,
-      0px 31px 80px #ffb90c14
-    ;
-      font-family: "Gabarito", sans-serif;
-      text-transform: uppercase;
-      padding: 0.4em 0.8em;
-      font-size: .9em;
-      color: $primary-color;
-      background: $light-bg;
-      border: 1px solid $primary-color;
-      font-weight: 700;
-      border-radius: 5px;
-      cursor: pointer;
-      margin: 0 0.5em 0 0;
-      display: block;
-      height: 100%;
-      box-sizing: border-box;
-      transition: all .2s;
-    }
-    .submit-bet:hover{
-      background: none;
-      background-color: $primary-color;
-      color: #141419;
     }
   }
-  .bet-amount-container {
-    display: flex;
-    align-items: center;
-    font-size: 1em;
-    height: 2.5em;
-    button {
-      border: none;
-      font-family: "Gabarito", sans-serif;
-      font-weight: 700;
-      text-rendering: optimizeLegibility;
-      background-color: $primary-color;
-      color: #141419;
-      border-radius: 2px;
-      margin: 0 0.3em;
-      cursor: pointer;
-      font-size: 0.8em;
-      padding: 0.3em 0.6em;
-      max-width: 100px;
-    }
-    button:hover{
-      transform: translateY(-1px);
-    }
-    .amount-wrapper {
-      box-shadow:
-      0px 2.1px 5.3px #ffb90c14,
-      0px 6.9px 17.9px #ffb90c14,
-      0px 31px 80px #ffb90c14
-    ;
-    height: 100%;
-    box-sizing: border-box;
-    background: radial-gradient(ellipse at center top, rgba(43,51,66,1) 0%, rgba(33,37,49,1) 100%);
-      width: fit-content;
-      padding: .4em .4em .4em .8em;
-      border: 1px solid rgba(122, 122, 122, 0.616);
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      margin: 0 0.5em 0 0;
-      div{
-        display: flex;
-        align-items: center;
-      }
-      img {
-        width: 1.4em;
-        margin: 0 0.5em 0 0;
-      }
-      input {
-        background-color: transparent;
-        border: none;
-        color:white;
-        font-family: "Gabarito", sans-serif;
-        font-size: 1em;
-        font-weight: 600;
-        min-width: 100px;
-      }
-      input:focus {
-        outline: none;
-      }
-      input::-webkit-outer-spin-button,
-      input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
-      input[type="number"] {
-        -moz-appearance: textfield;
-        appearance: textfield;
-      }
-    }
-    .controls-wrapper {
-      height: 100%;
-      box-sizing: border-box;
-      background: radial-gradient(ellipse at center top, rgba(43,51,66,1) 0%, rgba(33,37,49,1) 100%);
-      width: fit-content;
-      padding: 0.4em;
-      border: 1px solid rgba(122, 122, 122, 0.616);
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      margin: 0 0.5em 0 0;
-      box-shadow:
-      0px 2.1px 5.3px #ffb90c14,
-      0px 6.9px 17.9px #ffb90c14,
-      0px 31px 80px #ffb90c14
-    ;
-    }
-  }
-  .not-selected {
-    border-color: rgb(122, 18, 0) !important;
-    border-width: 2px !important;
-  }
-}
-
-@media only screen and (max-width: 1100px) {
-  .control-panel-container {
-    font-size: 13px;
-  }
-}
-
-@media only screen and (max-width: 1000px) {
-  .control-panel-container {
-    font-size: 12px;
-  }
-}
-
-@media only screen and (max-width: 900px) {
-  .control-panel-container {
-    font-size: 16px;
-    flex-direction: column;
+  .control-panel-wrapper {
     width: 100%;
-    .balance-wrapper{
+    .balance{
+      text-transform: uppercase;
+      font-family: "Gabarito",sans-serif;
+      color: $primary-color;
       margin: 0 0 .5em 0;
-      background-color: #141419;
-      padding: 1em;
-      border-radius: 5px;
+      font-size: .9em;
       text-align: center;
-      border: 1px solid $primary-color;
-      width: 100%;
-      box-sizing: border-box;
-      display: flex;
-      justify-content: space-between;
-      h1 {
-        font-size: 1.8em;
-      }
-      .balance{
-        text-align: left;
-        span{
-          display: block;
-        }
-      }
     }
-    .side-pick-container {
-      justify-content: space-between;
-      width: 100%;
-      .submit-bet{
-        display: block;
-        height: 100%;
-        width: 100%;
-        margin: 0;
-      }
-      .side-pick-wrapper{
-        padding: 0;
-        height: 100%;
-        padding: 0 .5em;
-        img{
-          width: 1.8em;
-        }
-      }
+    .not-selected{
+      border: 1px solid red !important;
     }
     .bet-amount-container {
-      flex-direction: column;
-      width: 100%;
-      height: fit-content;
-      button {
-        flex: 1;
-        padding: 0.8em 0.6em;
-        font-weight: 600;
-        font-size: .7em;
-      }
-      .amount-wrapper {
-        width: 100%;
-        margin: 0;
-        box-sizing: content-box;
-        height: fit-content;
-        box-sizing: border-box;
-        justify-content: space-between;
-        padding: .4em .4em .4em .8em;
+      .bet-amount-wrapper {
+        display: inline-block;
+        background-color: $dark-bg;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        margin: 0 0 1em 0;
+        border: 1px solid #21264a96;
+        img {
+          width: 1.6em;
+          padding: .5em 1em;
+        }
+        input{
+          background-color: transparent;
+          color: white;
+          border: none;
+          font-family: "Gabarito";
+          font-weight: 600;
+          font-size: 1em;
+          letter-spacing: 1px;
+          box-sizing: border-box;
+          border-left: 1px solid #21264a96;
+          border-right: 1px solid #21264a96;
+          padding: 0 1em;
+          width: 100%;
+        }
+        input:focus{
+          outline: none;
+        }
+        button{
+          background-color: transparent;
+          color: $primary-color;
+          border: none;
+          font-family: "Gabarito";
+          font-weight: 600;
+          font-size: .9em;
+          cursor: pointer;
+          letter-spacing: 1px;
+          padding: .5em 1em;
+        }
       }
       .controls-wrapper {
-        width: 100%;
+        display: flex;
         justify-content: space-between;
-        height: fit-content;
-        margin: 0.5em 0;
-        box-sizing: border-box;
+        margin: 0 0 1em 0;
+        button{
+          color: $primary-color;
+          font-family: "Gabarito";
+          font-weight: 600;
+          font-size: .9em;
+          cursor: pointer;
+          letter-spacing: 1px;
+          padding: .7em 1.3em;
+          background-color: $dark-bg;
+          border-radius: 10px;
+          border: 1px solid #21264a96;
+        }
+      }
+      .submit-bet{
+        color: $dark-bg;
+        font-family: "Gabarito";
+        font-weight: 600;
+        font-size: .9em;
+        cursor: pointer;
+        letter-spacing: 1px;
+        padding: .7em 1.3em;
+        border-radius: 10px;
+        text-transform: uppercase;
+        width: 100%;
+        border: none;
       }
     }
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .control-panel-container {
-    font-size: 15px;
-    .x2-btn,
-    .half-btn {
-      display: none;
-    }
-  }
-}
-
-@media only screen and (max-width: 320px) {
-  .control-panel-container {
-    font-size: 12px;
-    .x2-btn,
-    .half-btn {
-      display: none;
+    .side-pick-container{
+      .side-pick-wrapper{
+        width: 100%;
+        margin: 2em auto .7em;
+        display: flex;
+        justify-content: center;
+        .side-pick-button{
+            font-family: "Gabarito";
+            font-weight: 600;
+            font-size: .9em;
+            cursor: pointer;
+            letter-spacing: 1px;
+            padding: .7em .5em;
+            border-radius: 10px;
+            text-transform: uppercase;
+            width: 50%;
+            box-sizing: border-box;
+            margin: 0;
+            border: 1px solid #21264a96;
+        }
+        .side-pick-button:first-child{
+          margin-right: .5em;
+        }
+      }
     }
   }
 }

@@ -4,19 +4,49 @@ import heads from "../Assets/heads.png";
 import tails from "../Assets/tails.png";
 import coinstack from "../Assets/coin-stack.png";
 import Coin from "./CoinToss";
+import {motion, useAnimationControls} from "framer-motion"
 
 function RoomCard({ roomData, socketID, socket, userData }) {
+
   const joinRoom = () => {
     if (userData.balance >= roomData.bet) {
       socket.emit("join-room", roomData.roomID, userData);
     }
   };
 
+  const player1Controls = useAnimationControls()
+  const player2Controls = useAnimationControls()
+
+  useEffect(() => {
+    setTimeout(()=>{
+      if(roomData.winningSide == roomData.playerTwo.side && roomData.winningSide != ""){
+        player1Controls.start({
+          filter : "saturate(20%)",
+          backgroundColor : "#100d1300",
+          boxShadow:"none",
+          transition: {
+            duration : 0.2
+          }
+        })
+      }
+      if(roomData.winningSide == roomData.playerOne.side && roomData.winningSide != ""){
+        player2Controls.start({
+          filter : "saturate(20%)",
+          backgroundColor : "#100d1300",
+          boxShadow:"none",
+          transition: {
+            duration : 0.2
+          }
+        })
+      }
+    }, 5500)
+  }, [roomData.winningSide])
+
   return (
     <div className="room-card">
       {roomData.status !== "closed" ? (
         <>
-          <div className="player">
+          <motion.div animate={player1Controls} className="player">
             <img
               src={roomData.playerOne.side === "heads" ? heads : tails}
               className="player-side"
@@ -27,7 +57,7 @@ function RoomCard({ roomData, socketID, socket, userData }) {
               <img src={coinstack} alt="Coin stack" />
               <p>{roomData.bet}</p>
             </div>
-          </div>
+          </motion.div>
           <div className="countdown">
             {roomData.status !== "ongoing" ? (
               <p className="vs">VS</p>
@@ -38,7 +68,7 @@ function RoomCard({ roomData, socketID, socket, userData }) {
               />
             )}
           </div>
-          <div className="player">
+          <motion.div animate={player2Controls} className="player">
             <img
               src={roomData.playerOne.side === "heads" ? tails : heads}
               className="player-side"
@@ -61,7 +91,7 @@ function RoomCard({ roomData, socketID, socket, userData }) {
               <img src={coinstack} alt="Coin Stack" />
               <p>{roomData.bet}</p>
             </div>
-          </div>
+          </motion.div>
         </>
       ) : (
         <></>
@@ -73,7 +103,7 @@ function RoomCard({ roomData, socketID, socket, userData }) {
 export default function Rooms({ socket, sessionData, userData }) {
   const [filterSettings, setFilterSettings] = useState({
     filterRanges: window.FILTERS,
-    activeRange: window.FILTERS[0],
+    activeRange: [0,99999],
     filterDisplay: "All",
     isOpen: false,
   });
@@ -124,7 +154,7 @@ export default function Rooms({ socket, sessionData, userData }) {
               onClick={() => {
                 setFilterSettings({
                   ...filterSettings,
-                  activeRange: filterSettings.filterRanges[0],
+                  activeRange: [0,99999],
                   filterDisplay: "All",
                   isOpen: !filterSettings.isOpen,
                 });

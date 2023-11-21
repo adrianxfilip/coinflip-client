@@ -1,0 +1,58 @@
+import React, { useRef, Suspense } from "react";
+import { useLoader } from "@react-three/fiber";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { Canvas } from "@react-three/fiber";
+import { motion } from "framer-motion-3d";
+import coinModel from "../Assets/goldencoininset.glb";
+
+const GltfModel = ({ position = [0, 0, 0] }) => {
+  const ref = useRef();
+  const gltf = useLoader(GLTFLoader, coinModel);
+
+  return (
+    <>
+      <primitive
+        ref={ref}
+        object={gltf.scene.clone()}
+        position={position}
+        scale={1.5}
+      />
+    </>
+  );
+};
+
+const ModelViewer = ({ position = [0, 0, 0], side }) => {
+  return (
+    <Canvas style={{ maxWidth: "400px" }} shadows>
+      <directionalLight castShadow intensity={1} position={[0, 50, 10]} />
+      <directionalLight intensity={1} position={[0, 0, 50]} />
+      <directionalLight intensity={1} position={[0, -50, 50]} />
+      <directionalLight castShadow intensity={1} position={[-50, 50, 10]} />
+      <directionalLight intensity={1} position={[-50, 0, 50]} />
+      <directionalLight intensity={1} position={[-50, -50, 50]} />
+      <directionalLight castShadow intensity={1} position={[50, 50, 10]} />
+      <directionalLight intensity={1} position={[50, 0, 50]} />
+      <directionalLight intensity={1} position={[50, -50, 50]} />
+      <Suspense fallback={null}>
+        <motion.group
+          initial={{ scale: 1.7 }}
+          animate={{
+            y: [0, 0.4, 0],
+            rotateY: side === "heads" ? 0 : side === "tails" ? 3.14 : 0,
+          }}
+          transition={{
+            y: {
+              repeat: Infinity,
+              duration: 3,
+              ease: "easeInOut",
+            },
+          }}
+        >
+          <GltfModel castShadow position={position} />
+        </motion.group>
+      </Suspense>
+    </Canvas>
+  );
+};
+
+export default ModelViewer;
