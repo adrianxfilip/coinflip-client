@@ -3,13 +3,13 @@
 .control-panel-container {
   position: relative;
   background-color: $light-bg;
-  background: radial-gradient(circle farthest-corner at 0% 0%, rgb(37, 29, 46) 0%, rgba(16,13,19,1) 100%);
   padding: 2em;
   border-radius: 15px;
   flex-wrap: nowrap;
   width: 400px;
   height: 100%;
   box-sizing: border-box;
+  background: radial-gradient(circle farthest-corner at 0% 0%, rgb(37, 29, 46) 0%, rgba(16,13,19,1) 100%);
   box-shadow:
   0px 0px 1.6px rgba(0, 0, 0, 0.055),
   0px 0px 3.6px rgba(0, 0, 0, 0.08),
@@ -20,6 +20,9 @@
   0px 0px 40px rgba(0, 0, 0, 0.175),
   0px 0px 80px rgba(0, 0, 0, 0.23)
 ;
+svg{
+  display: none;
+}
   .header{
     display: flex;
     align-items: center;
@@ -41,7 +44,7 @@
         cursor: pointer;
       }
       .fi:first-child{
-        margin-right: .5em;
+        margin: 0 .4em 0 0;
       }
     }
   }
@@ -153,6 +156,110 @@
         }
         .side-pick-button:first-child{
           margin-right: .5em;
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 1400px) {
+  .control-panel-container {
+    font-size: 12px;
+    width: 300px;
+    .header{
+      img{
+        width: 150px;
+      }
+      div{
+        .fi{
+          padding: .6em;
+          padding-bottom: .4em;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+  .control-panel-container{
+    position: fixed;
+    z-index: 10;
+    box-sizing: border-box;
+    width: 100vw;
+    height: 260px;
+    padding: 0 .5em .5em .5em;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    bottom: 0;
+    left: 0;
+    user-select: none;
+    //background: radial-gradient(circle farthest-corner at 0% 0%, rgb(37, 29, 46) 0%, rgba(16,13,19,1) 100%);
+    background: non;
+    background-color: $dark-bg;
+    svg{
+      display: block;
+      margin: 0 auto;
+      user-select: none;
+    }
+    .header{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      box-sizing: border-box;
+      padding: .7em;
+      background: radial-gradient(circle farthest-corner at 0% 0%, rgb(37, 29, 46) 0%, rgba(16,13,19,1) 100%);
+      box-shadow:
+      0px 0px 1.6px rgba(0, 0, 0, 0.055),
+      0px 0px 3.6px rgba(0, 0, 0, 0.08),
+      0px 0px 6.3px rgba(0, 0, 0, 0.099),
+      0px 0px 10px rgba(0, 0, 0, 0.115),
+      0px 0px 15.5px rgba(0, 0, 0, 0.131),
+      0px 0px 24.1px rgba(0, 0, 0, 0.15),
+      0px 0px 40px rgba(0, 0, 0, 0.175),
+      0px 0px 80px rgba(0, 0, 0, 0.23);
+      margin: 0;
+      img{
+        width: 100px;
+      }
+      div{
+        .fi{
+          font-size: 1.2em;
+        }
+      }
+    }
+    .control-panel-wrapper{
+      div{
+        display: block;
+        margin: 0 auto;
+      }
+      canvas{
+        height: 70px !important;
+        margin: 0 auto !important;
+      }
+      .side-pick-container{
+        .side-pick-wrapper{
+          position: absolute;
+          top: 3em;
+          left: 0;
+          justify-content: space-around;
+          box-sizing: border-box;
+          .side-pick-button{
+            width: 30%;
+        }
+        .side-pick-button:first-child{
+          margin-right: .5em;
+        }
+        }
+      }
+      .bet-amount-container {
+        .controls-wrapper {
+          margin: 0 0 1em 0;
+          button{
+            border-radius: 10px;
+            margin: 0 .2em;
+          }
         }
       }
     }

@@ -11,4 +11,12 @@
     }
   }
   
+  @media only screen and (max-width: 768px) 
+  {
+    .App{
+      .game-container{
+        padding: 0;
+      }
+    }
+  }
 

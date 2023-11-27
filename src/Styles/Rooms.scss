@@ -196,7 +196,6 @@
         padding: .4em;
         border-radius: 15px;
         background-color: $dark-bg;
-        width: 57.8px;
         box-sizing: border-box;
         box-shadow:
         0px 0px 2.3px rgba(0, 0, 0, 0.087),
@@ -206,6 +205,7 @@
         0px 0px 34.3px rgba(0, 0, 0, 0.223),
         0px 0px 82px rgba(0, 0, 0, 0.31)
       ;
+        min-width:57.58px;
       }
       p{
         color: white;
@@ -308,24 +308,37 @@
   }
 }
 
-@media only screen and (max-width: 600px) {
-  .rooms-container {
-    .controls-container {
-      margin: 2em 0 1em 0;
-    }
+@media only screen and (max-width: 1400px) {
+  .rooms-container{
+    font-size: 12px;
   }
-
-  .rooms-wrapper {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    grid-auto-rows: 180px;
-    font-size: 14px;
-    .room-card {
-      .player {
-        padding: 1em 0;
+  .rooms-wrapper{
+     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-auto-rows: 150px;
+    .room-card{    
+      .player{
         .join-room{
-          font-size: .8em;
+          padding: .5em;
+          font-size: .9em;
         }
       }
+      .countdown{
+      margin: 0 .5em;
+      .vs{
+        font-size: 1.5em;
+        border-radius: 10px;
+        min-width: 35.97px;
+      }
+    }}
+
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .rooms-container{
+    padding: 50px .5em 0;
+    .filters-container{
+      padding: 1em 0;
     }
   }
 }

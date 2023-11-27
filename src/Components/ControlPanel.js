@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../Styles/ControlPanel.scss";
-import heads from "../Assets/heads.png";
-import tails from "../Assets/tails.png";
 import coinstack from "../Assets/coin-stack.png";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import ModelViewer from "./ControlPanelCoin";
 import logo from "../Assets/logo.png";
 import Chat from "./Chat";
 
 export default function ControlPanel({ socket, userData, chatData }) {
-
   const [betData, setBetData] = useState({
     betAmount: 0,
     selectedSide: null,
@@ -33,20 +30,84 @@ export default function ControlPanel({ socket, userData, chatData }) {
     }
   };
 
-  const [showChat, setShowChat] = useState(false)
+  const [showChat, setShowChat] = useState(false);
+
+  const menuControls = useAnimation()
+
+  const menuVariants = {
+    menuOpen : {
+      height : "260px"
+    },
+    menuClosed : {
+       height: "40px"
+    },
+    chevronOpen : {
+      d: "M10 20 L30 27 L50 20"
+    },
+    chevronClosed: {
+      d: "M10 20 L30 13 L50 20"
+    }
+  }
+
+  const [menuState, setMenuState] = useState("open")
+
+  const handleMenu = () => {
+    if(menuState === "open"){
+      menuControls.start("menuClosed")
+      menuControls.start("chevronClosed")
+      setMenuState("closed")
+    }
+    if(menuState === "closed"){
+      menuControls.start("menuOpen")
+      menuControls.start("chevronOpen")
+      setMenuState("open")
+    }
+  }
+
+  function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
 
   return (
-    <div className="control-panel-container">
-      <Chat socket={socket} username={userData.name} chatData={chatData} showChat={showChat} closeChat={()=>{setShowChat(false)}}/>
+    <motion.div className="control-panel-container" variants={menuVariants} animate={menuControls}>
+      <svg width="60" height="40" onClick={handleMenu}>
+        <motion.path
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          fill="none"
+          variants={menuVariants}
+          initial="chevronOpen"
+          animate={menuControls}
+        />
+      </svg>
+      <Chat
+        socket={socket}
+        username={userData.name}
+        chatData={chatData}
+        showChat={showChat}
+        closeChat={() => {
+          setShowChat(false);
+        }}
+      />
       <>
         <div className="header">
           <img src={logo}></img>
           <div>
-            <i className="fi fi-rr-messages" onClick={()=>{setShowChat(true)}}></i>
-            <i className="fi fi-rr-info"></i>
+            <i
+              className="fi fi-rr-messages"
+              onClick={() => {
+                setShowChat(true);
+              }}
+            ></i>
+            <i className="fi fi-rr-expand" onClick={toggleFullScreen}></i>
           </div>
         </div>
-        <div className="control-panel-wrapper">
+        <motion.div className="control-panel-wrapper">
           <div className="side-pick-container">
             <ModelViewer side={betData.selectedSide} />
             <div className="side-pick-wrapper">
@@ -358,8 +419,8 @@ export default function ControlPanel({ socket, userData, chatData }) {
               </motion.button>
             </div>
           </div>
-        </div>
+        </motion.div>
       </>
-    </div>
+    </motion.div>
   );
 }
