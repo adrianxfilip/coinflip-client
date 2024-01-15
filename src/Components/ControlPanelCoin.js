@@ -23,7 +23,8 @@ const GltfModel = ({ position = [0, 0, 0] }) => {
 
 const ModelViewer = ({ position = [0, 0, 0], side }) => {
   return (
-    <Canvas style={{ maxWidth: "400px" }} shadows>
+    <Canvas gl={{ preserveDrawingBuffer: true, alpha: true }} shadows>
+      <Suspense fallback={null}>
       <directionalLight castShadow intensity={1} position={[0, 50, 10]} />
       <directionalLight intensity={1} position={[0, 0, 50]} />
       <directionalLight intensity={1} position={[0, -50, 50]} />
@@ -33,7 +34,6 @@ const ModelViewer = ({ position = [0, 0, 0], side }) => {
       <directionalLight castShadow intensity={1} position={[50, 50, 10]} />
       <directionalLight intensity={1} position={[50, 0, 50]} />
       <directionalLight intensity={1} position={[50, -50, 50]} />
-      <Suspense fallback={null}>
         <motion.group
           initial={{ scale: 1.7 }}
           animate={{
@@ -47,6 +47,7 @@ const ModelViewer = ({ position = [0, 0, 0], side }) => {
               ease: "easeInOut",
             },
           }}
+          key={"controlPanelCoin"}
         >
           <GltfModel castShadow position={position} />
         </motion.group>

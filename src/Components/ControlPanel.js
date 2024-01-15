@@ -39,7 +39,7 @@ export default function ControlPanel({ socket, userData, chatData }) {
       height : "260px"
     },
     menuClosed : {
-       height: "40px"
+       height: "35px"
     },
     chevronOpen : {
       d: "M10 20 L30 27 L50 20"
@@ -85,7 +85,7 @@ export default function ControlPanel({ socket, userData, chatData }) {
           animate={menuControls}
         />
       </svg>
-      <Chat
+      {/*<Chat
         socket={socket}
         username={userData.name}
         chatData={chatData}
@@ -93,17 +93,17 @@ export default function ControlPanel({ socket, userData, chatData }) {
         closeChat={() => {
           setShowChat(false);
         }}
-      />
+      />*/}
       <>
         <div className="header">
           <img src={logo}></img>
           <div>
-            <i
+            {/*<i
               className="fi fi-rr-messages"
               onClick={() => {
                 setShowChat(true);
               }}
-            ></i>
+            ></i>*/}
             <i className="fi fi-rr-expand" onClick={toggleFullScreen}></i>
           </div>
         </div>

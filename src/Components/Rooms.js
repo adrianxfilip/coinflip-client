@@ -117,7 +117,7 @@ export default function Rooms({ socket, sessionData, userData }) {
     if (index > 5) {
       setRoomsLimit(index);
     } else {
-      setRoomsLimit(5);
+      setRoomsLimit(10);
     }
   }, [sessionData.rooms]);
 
@@ -195,7 +195,7 @@ export default function Rooms({ socket, sessionData, userData }) {
                 sessionData.rooms[key].status === "closed"
             )
             .map((key, index) =>
-              index < roomsLimit + 1 ? (
+              index < roomsLimit ? (
                 <RoomCard
                   key={key}
                   roomData={{ roomID: key, ...sessionData.rooms[key] }}
