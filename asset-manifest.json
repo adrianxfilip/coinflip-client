@@ -1,18 +1,20 @@
 {
   "files": {
-    "main.css": "/coinflip-client/static/css/main.c15fc88b.css",
-    "main.js": "/coinflip-client/static/js/main.b3877b3b.js",
+    "main.css": "/coinflip-client/static/css/main.811b28c3.css",
+    "main.js": "/coinflip-client/static/js/main.fc607bf2.js",
     "static/js/787.c4e7f8f9.chunk.js": "/coinflip-client/static/js/787.c4e7f8f9.chunk.js",
-    "static/media/coin-stack.png": "/coinflip-client/static/media/coin-stack.cb4da22cb0ddaf5d20d8.png",
-    "static/media/tails.png": "/coinflip-client/static/media/tails.4865c60bd9f53148018c.png",
-    "static/media/heads.png": "/coinflip-client/static/media/heads.0cfee5759d29cbd60f72.png",
+    "static/media/coin-stack.png": "/coinflip-client/static/media/coin-stack.e951b8931d6c8324c08c.png",
+    "static/media/goldencoininset.glb": "/coinflip-client/static/media/goldencoininset.2b6e3af570ab163d6890.glb",
+    "static/media/tails.png": "/coinflip-client/static/media/tails.3ab5900b896d078eab8d.png",
+    "static/media/heads.png": "/coinflip-client/static/media/heads.da5a036d20c07791f638.png",
+    "static/media/logo.png": "/coinflip-client/static/media/logo.880629fb195cece38c8a.png",
     "index.html": "/coinflip-client/index.html",
-    "main.c15fc88b.css.map": "/coinflip-client/static/css/main.c15fc88b.css.map",
-    "main.b3877b3b.js.map": "/coinflip-client/static/js/main.b3877b3b.js.map",
+    "main.811b28c3.css.map": "/coinflip-client/static/css/main.811b28c3.css.map",
+    "main.fc607bf2.js.map": "/coinflip-client/static/js/main.fc607bf2.js.map",
     "787.c4e7f8f9.chunk.js.map": "/coinflip-client/static/js/787.c4e7f8f9.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c15fc88b.css",
-    "static/js/main.b3877b3b.js"
+    "static/css/main.811b28c3.css",
+    "static/js/main.fc607bf2.js"
   ]
 }
